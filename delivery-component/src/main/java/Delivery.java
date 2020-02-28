@@ -13,6 +13,6 @@ public class Delivery implements DroneLauncher {
      */
     @Override
     public boolean initializeDroneLaunching(Drone drone, double arrivalHour) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 }

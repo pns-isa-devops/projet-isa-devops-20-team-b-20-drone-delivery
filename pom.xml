@@ -12,9 +12,10 @@
     <modules>
         <module>web-services</module>
         <module>schedule-component</module>
-        <module>delivery-drone-park-components</module>
+        <module>drone-park-component</module>
         <module>invoice-component</module>
         <module>statistics-component</module>
+        <module>delivery-component</module>
     </modules>
 
     <properties>

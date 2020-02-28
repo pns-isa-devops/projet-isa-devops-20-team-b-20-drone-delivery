@@ -32,7 +32,13 @@
 
         <dependency>
             <groupId>fr.unice.polytech.isadevops.dronedelivery</groupId>
-            <artifactId>delivery-drone-park-components</artifactId>
+            <artifactId>drone-park-component</artifactId>
+            <version>Release-0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>fr.unice.polytech.isadevops.dronedelivery</groupId>
+            <artifactId>delivery-component</artifactId>
             <version>Release-0.1</version>
         </dependency>
     </dependencies>

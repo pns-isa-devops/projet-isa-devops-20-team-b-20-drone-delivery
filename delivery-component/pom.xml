@@ -9,7 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>delivery-drone-park-components</artifactId>
+    <artifactId>delivery-component</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>fr.unice.polytech.isadevops.dronedelivery</groupId>
+            <artifactId>drone-park-component</artifactId>
+            <version>Release-0.1</version>
+        </dependency>
+    </dependencies>
 
 </project>

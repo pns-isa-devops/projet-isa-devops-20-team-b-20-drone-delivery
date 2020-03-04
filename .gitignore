@@ -17,6 +17,8 @@ conception/diagrams/*
 sonarCommand.txt
 logs/*
 **/target/*
-
+.project
+.**path
+.settings
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/.mvn/wrapper/maven-wrapper.jar

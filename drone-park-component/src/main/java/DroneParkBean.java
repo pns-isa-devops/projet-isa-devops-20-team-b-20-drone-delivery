@@ -25,7 +25,7 @@ public class DroneParkBean implements DroneLauncher {
      * @return
      */
     @Override
-    public boolean initializeDroneLaunching(Drone drone, double arrivalHour) {
+    public boolean initializeDroneLaunching(Drone drone) {
         // Call the dotnet API
         this.droneAPI.launchDrone(drone);
         drone.setDroneStatus(DroneStatus.ON_DELIVERY);

@@ -28,10 +28,6 @@ public class Drone{
         return droneId;
     }
 
-    public void setDroneId(int droneId) {
-        this.droneId = droneId;
-    }
-
     public DroneStatus getDroneStatus() {
         return droneStatus;
     }

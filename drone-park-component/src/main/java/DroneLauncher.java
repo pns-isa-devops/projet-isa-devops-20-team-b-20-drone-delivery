@@ -8,6 +8,6 @@ public interface DroneLauncher {
      * @param arrivalHour
      * @return
      */
-    boolean initializeDroneLaunching(Drone drone, double arrivalHour);
+    boolean initializeDroneLaunching(Drone drone/*, double arrivalHour*/); // no arrival hour for now
 
 }

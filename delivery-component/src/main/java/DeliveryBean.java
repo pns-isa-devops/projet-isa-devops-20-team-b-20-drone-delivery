@@ -4,8 +4,6 @@ import entities.Drone;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Calendar;
-import java.util.Date;
 
 public class DeliveryBean implements DeliveryInitializer {
 

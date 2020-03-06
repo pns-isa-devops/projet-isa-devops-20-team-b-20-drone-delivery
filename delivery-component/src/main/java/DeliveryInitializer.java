@@ -1,5 +1,8 @@
 import entities.Delivery;
 
+import javax.ejb.Local;
+
+@Local
 public interface DeliveryInitializer {
 
     /**

@@ -4,8 +4,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Objects;
 
-public class Delivery {
+public class Delivery implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,7 +18,7 @@ public class Delivery {
 
     private Drone drone;
 
-//    private Parcel parcel; todo implement
+    private Parcel parcel;
 
     /**
      *
@@ -46,4 +48,26 @@ public class Delivery {
     public void setDrone(Drone drone) {
         this.drone = drone;
     }
+
+    @Override
+    public String toString() {
+        return "Delivery " + this.deliveryId;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+
+        if (obj instanceof Delivery) {
+            Delivery d = (Delivery) obj;
+            return this.deliveryId == d.deliveryId;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.deliveryId, this.deliveryStatus, this.drone, this.parcel);
+    }
+
 }

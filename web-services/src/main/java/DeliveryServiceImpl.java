@@ -11,6 +11,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     @EJB(name = "stateless-deliveryInitializer")
     private DeliveryInitializer deliveryInitializer;
 
+
     @Override
     public void startDelivery(String deliveryId) {
         //deliveryInitializer.initializeDelivery(); //todo

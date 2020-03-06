@@ -7,7 +7,7 @@ public interface DeliveryService {
 
     @WebMethod
     void startDelivery(
-            @WebParam(name = "delivery_id", targetNamespace = "") String delivery_id
+            @WebParam(name = "delivery_id") String deliveryId
     );
 
 }

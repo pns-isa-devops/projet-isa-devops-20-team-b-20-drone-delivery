@@ -1,13 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fr.unice.polytech.isadevops.dronedelivery</groupId>
     <artifactId>projet-isa-devops-20-team-b-20-drone-delivery</artifactId>
     <packaging>pom</packaging>
-    <version>Release-0.1</version>
+    <version>0.1</version>
 
     <modules>
         <module>web-services</module>
@@ -38,7 +36,22 @@
         <versions.arquillian.junit>1.1.12.Final</versions.arquillian.junit>
         <versions.arquilian.jta>1.0.3.Final</versions.arquilian.jta>
         <versions.shrinkwrap>2.2.6</versions.shrinkwrap>
+        <version.jacoco>0.8.5</version.jacoco>
+        <version.pitest>1.5.0</version.pitest>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>otakedev-releases</name>
+            <url>https://artifactory.otakedev.com:443/artifactory/libs-snapshot-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>otakedev-snapshots</name>
+            <url>https://artifactory.otakedev.com:443/artifactory/libs-snapshot-local</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -123,6 +136,19 @@
             <version>${versions.tomee}</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${version.jacoco}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.pitest/pitest -->
+        <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest</artifactId>
+            <version>${version.pitest}</version>
+        </dependency>
+
 
     </dependencies>
 
@@ -130,7 +156,7 @@
         <finalName>tcf-backend</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
-<!--            <plugin>
+            <!--            <plugin>
                 <groupId>org.apache.openjpa</groupId>
                 <artifactId>openjpa-maven-plugin</artifactId>
                 <version>${versions.openjpa}</version>
@@ -149,7 +175,7 @@
                     </execution>
                 </executions>
             </plugin>-->
-<!--
+            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -200,6 +226,34 @@
                     <tomeeClassifier>plus</tomeeClassifier>
                     <args>-Xmx512m -XX:PermSize=256m</args>
                     <deployOpenEjbApplication>true</deployOpenEjbApplication>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.5</version>
+                <configuration>
+                    <destFile>${sonar.jacoco.reportPath}</destFile>
+                    <append>true</append>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.5.0</version>
+                <configuration>
+                    <outputFormats>
+                        <value>XML</value>
+                        <value>HTML</value>
+                    </outputFormats>
                 </configuration>
             </plugin>
         </plugins>

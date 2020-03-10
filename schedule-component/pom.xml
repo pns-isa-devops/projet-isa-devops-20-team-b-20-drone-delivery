@@ -1,21 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>projet-isa-devops-20-team-b-20-drone-delivery</artifactId>
         <groupId>fr.unice.polytech.isadevops.dronedelivery</groupId>
-        <version>Release-0.1</version>
+        <version>0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>schedule-component</artifactId>
+    <version>0.1</version>
 
     <dependencies>
         <dependency>
             <groupId>fr.unice.polytech.isadevops.dronedelivery</groupId>
             <artifactId>drone-park-component</artifactId>
-            <version>Release-0.1</version>
+            <version>0.1</version>
         </dependency>
     </dependencies>
 

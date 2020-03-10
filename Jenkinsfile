@@ -1,9 +1,7 @@
 #!/usr/bin/env groovy
 
 pipeline{
-    agent{
-        label "any"
-    }
+    agent any
     options {
         disableConcurrentBuilds()
         timeout(time: 1, unit: "HOURS")

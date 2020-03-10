@@ -27,7 +27,7 @@ pipeline{
         stage("Test Mutation modules"){
             steps{
                 echo "Mutation with piTest"
-                sh "mvn org.pitest:pitest-maven:mutationCoverage"
+                sh "mvn install org.pitest:pitest-maven:mutationCoverage"
             }
         }
         stage("Sonar Analysis"){

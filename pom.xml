@@ -44,7 +44,7 @@
         <repository>
             <id>central</id>
             <name>otakedev-releases</name>
-            <url>https://artifactory.otakedev.com:443/artifactory/libs-snapshot-local</url>
+            <url>https://artifactory.otakedev.com:443/artifactory/libs-release-local</url>
         </repository>
         <snapshotRepository>
             <id>snapshots</id>

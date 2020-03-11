@@ -153,61 +153,7 @@
     </dependencies>
 
     <build>
-        <finalName>tcf-backend</finalName>
-        <defaultGoal>package</defaultGoal>
         <plugins>
-            <!--            <plugin>
-                <groupId>org.apache.openjpa</groupId>
-                <artifactId>openjpa-maven-plugin</artifactId>
-                <version>${versions.openjpa}</version>
-                <configuration>
-                    <includes>**/entities/*.class</includes>
-                    <addDefaultConstructor>true</addDefaultConstructor>
-                    <enforcePropertyRestrictions>true</enforcePropertyRestrictions>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>enhancer</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>enhance</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>-->
-            <!--
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${versions.maven.surefire}</version>
-                <configuration>
-                    <forkMode>always</forkMode>
-                    &lt;!&ndash; otherwise openejb embedded and tomee embedded shares the same context and EJBContainer is broken &ndash;&gt;
-                    <reuseForks>false</reuseForks>
-                    <excludes>
-                        <exclude>**/PaymentIntegrationTest.java</exclude>
-                        <exclude>features/*</exclude>
-                    </excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>integration-test</id>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <phase>integration-test</phase>
-                        <configuration>
-                            <excludes>
-                                <exclude>**/*Test.java</exclude>
-                            </excludes>
-                            <includes>
-                                <include>**/PaymentIntegrationTest.java</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -215,17 +161,6 @@
                 <configuration>
                     <source>${versions.java}</source>
                     <target>${versions.java}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.tomee.maven</groupId>
-                <artifactId>tomee-maven-plugin</artifactId>
-                <version>${versions.tomee}</version>
-                <configuration>
-                    <!-- From TomEE to TomEE+ to support the web services stack -->
-                    <tomeeClassifier>plus</tomeeClassifier>
-                    <args>-Xmx512m -XX:PermSize=256m</args>
-                    <deployOpenEjbApplication>true</deployOpenEjbApplication>
                 </configuration>
             </plugin>
             <plugin>
@@ -258,6 +193,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

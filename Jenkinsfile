@@ -1,62 +1,419 @@
 #!/usr/bin/env groovy
 
-pipeline{
+pipeline {
     agent any
     options {
         disableConcurrentBuilds()
         timeout(time: 1, unit: "HOURS")
     }
-    stages{
-        stage("Checkout"){
-            steps{
+    stages {
+        stage("Checkout") {
+            steps {
                 echo "Checkout"
             }
         }
-        stage("Compile modules"){
-            steps{
-                echo "clean compile each modules"
-                sh "mvn clean compile"
-            }
-        }
-        stage("Unit Tests modules"){
-            steps{
-                echo "unit tests each modules"
-                sh "mvn test"
-            }
-        }
-        stage("Test Mutation modules"){
-            steps{
-                echo "Mutation with piTest"
-                sh "mvn install org.pitest:pitest-maven:mutationCoverage"
-            }
-        }
-        stage("Sonar Analysis"){
-            steps {
-                echo 'Sonar Analysis'
-                withSonarQubeEnv('Sonarqube_env') {
-                    sh 'mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport'
+        stage("Analysis on modules 1/3") {
+            parallel  {
+                stage("statistics-component") {
+                    stages  {
+                        stage("Install") {
+                            steps {
+                                echo "Compile module"
+                                dir("./statistics-component/") {
+                                    sh "mvn clean compile"
+                                }
+                            }
+                        }
+                        stage("Unit tests") {
+                            steps {
+                                echo "Unit tests module"
+                                dir("./statistics-component/") {
+                                    sh "mvn test"
+                                }
+                            }
+                        }
+                        stage("Test Mutation") {
+                            steps {
+                                echo "Mutation tests"
+                                dir("./statistics-component/") {
+                                    sh "mvn install org.pitest:pitest-maven:mutationCoverage"
+                                }
+                            }
+                        }
+                        stage("Sonar analysis") {
+                            steps {
+                                echo "Sonar code analysis"
+                                withSonarQubeEnv("Sonarqube_env") {
+                                    dir("./statistics-component/") {
+                                        sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
+                                    }
+                                }
+                            }
+                        }
+                        stage("Quality Gate") {
+                            steps {
+                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                    timeout(time: 1, unit: "HOURS") {
+                                        waitForQualityGate true
+                                    }
+                                }
+                            }
+                        }
+                        stage("Artifactory Snapshot") {
+                            steps {
+                                configFileProvider([configFile(fileId: "3ec57b41-efe6-4628-a6c7-8be5f1c26d77", variable: "MAVEN_SETTINGS")]) {
+                                    dir("./statistics-component/") {
+                                        sh "mvn -s $MAVEN_SETTINGS deploy"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    post {
+                        success{
+                            echo "====++++statistics-component successful++++===="
+                        }
+                        failure{
+                            echo "====++++statistics-component failed++++===="
+                        }
+                    }
+                }
+                stage("delivery-component") {
+                    stages  {
+                        stage("Install") {
+                            steps {
+                                echo "Compile module"
+                                dir("./delivery-component/") {
+                                    sh "mvn clean compile"
+                                }
+                            }
+                        }
+                        stage("Unit tests") {
+                            steps {
+                                echo "Unit tests module"
+                                dir("./delivery-component/") {
+                                    sh "mvn test"
+                                }
+                            }
+                        }
+                        stage("Test Mutation") {
+                            steps {
+                                echo "Mutation tests"
+                                dir("./delivery-component/") {
+                                    sh "mvn install org.pitest:pitest-maven:mutationCoverage"
+                                }
+                            }
+                        }
+                        stage("Sonar analysis") {
+                            steps {
+                                echo "Sonar code analysis"
+                                withSonarQubeEnv("Sonarqube_env") {
+                                    dir("./delivery-component/") {
+                                        sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
+                                    }
+                                }
+                            }
+                        }
+                        stage("Quality Gate") {
+                            steps {
+                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                    timeout(time: 1, unit: "HOURS") {
+                                        waitForQualityGate true
+                                    }
+                                }
+                            }
+                        }
+                        stage("Artifactory Snapshot") {
+                            steps {
+                                configFileProvider([configFile(fileId: "3ec57b41-efe6-4628-a6c7-8be5f1c26d77", variable: "MAVEN_SETTINGS")]) {
+                                    dir("./delivery-component/") {
+                                        sh "mvn -s $MAVEN_SETTINGS deploy"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    post {
+                        success{
+                            echo "====++++delivery-component successful++++===="
+                        }
+                        failure{
+                            echo "====++++delivery-component failed++++===="
+                        }
+                    }
                 }
             }
         }
-        stage('Quality Gate') {
-            steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    waitForQualityGate true
+        stage("Analysis on modules 2/3") {
+            parallel  {
+                stage("drone-park-component") {
+                    stages  {
+                        stage("Install") {
+                            steps {
+                                echo "Compile module"
+                                dir("./drone-park-component/") {
+                                    sh "mvn clean compile"
+                                }
+                            }
+                        }
+                        stage("Unit tests") {
+                            steps {
+                                echo "Unit tests module"
+                                dir("./drone-park-component/") {
+                                    sh "mvn test"
+                                }
+                            }
+                        }
+                        stage("Test Mutation") {
+                            steps {
+                                echo "Mutation tests"
+                                dir("./drone-park-component/") {
+                                    sh "mvn install org.pitest:pitest-maven:mutationCoverage"
+                                }
+                            }
+                        }
+                        stage("Sonar analysis") {
+                            steps {
+                                echo "Sonar code analysis"
+                                withSonarQubeEnv("Sonarqube_env") {
+                                    dir("./drone-park-component/") {
+                                        sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
+                                    }
+                                }
+                            }
+                        }
+                        stage("Quality Gate") {
+                            steps {
+                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                    timeout(time: 1, unit: "HOURS") {
+                                        waitForQualityGate true
+                                    }
+                                }
+                            }
+                        }
+                        stage("Artifactory Snapshot") {
+                            steps {
+                                configFileProvider([configFile(fileId: "3ec57b41-efe6-4628-a6c7-8be5f1c26d77", variable: "MAVEN_SETTINGS")]) {
+                                    dir("./drone-park-component/") {
+                                        sh "mvn -s $MAVEN_SETTINGS deploy"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    post {
+                        success{
+                            echo "====++++drone-park-component successful++++===="
+                        }
+                        failure{
+                            echo "====++++drone-park-component failed++++===="
+                        }
+                    }
                 }
-                echo 'passed'
+                stage("invoice-component") {
+                    stages  {
+                        stage("Install") {
+                            steps {
+                                echo "Compile module"
+                                dir("./invoice-component/") {
+                                    sh "mvn clean compile"
+                                }
+                            }
+                        }
+                        stage("Unit tests") {
+                            steps {
+                                echo "Unit tests module"
+                                dir("./invoice-component/") {
+                                    sh "mvn test"
+                                }
+                            }
+                        }
+                        stage("Test Mutation") {
+                            steps {
+                                echo "Mutation tests"
+                                dir("./invoice-component/") {
+                                    sh "mvn install org.pitest:pitest-maven:mutationCoverage"
+                                }
+                            }
+                        }
+                        stage("Sonar analysis") {
+                            steps {
+                                echo "Sonar code analysis"
+                                withSonarQubeEnv("Sonarqube_env") {
+                                    dir("./invoice-component/") {
+                                        sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
+                                    }
+                                }
+                            }
+                        }
+                        stage("Quality Gate") {
+                            steps {
+                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                    timeout(time: 1, unit: "HOURS") {
+                                        waitForQualityGate true
+                                    }
+                                }
+                            }
+                        }
+                        stage("Artifactory Snapshot") {
+                            steps {
+                                configFileProvider([configFile(fileId: "3ec57b41-efe6-4628-a6c7-8be5f1c26d77", variable: "MAVEN_SETTINGS")]) {
+                                    dir("./invoice-component/") {
+                                        sh "mvn -s $MAVEN_SETTINGS deploy"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    post {
+                        success{
+                            echo "====++++web-services successful++++===="
+                        }
+                        failure{
+                            echo "====++++web-services failed++++===="
+                        }
+                    }
+                }
+            }
+        }
+        stage("Analysis on modules 3/3") {
+            parallel  {
+                stage("web-services") {
+                    stages  {
+                        stage("Install") {
+                            steps {
+                                echo "Compile module"
+                                dir("./web-services/") {
+                                    sh "mvn clean compile"
+                                }
+                            }
+                        }
+                        stage("Unit tests") {
+                            steps {
+                                echo "Unit tests module"
+                                dir("./web-services/") {
+                                    sh "mvn test"
+                                }
+                            }
+                        }
+                        stage("Test Mutation") {
+                            steps {
+                                echo "Mutation tests"
+                                dir("./web-services/") {
+                                    sh "mvn install org.pitest:pitest-maven:mutationCoverage"
+                                }
+                            }
+                        }
+                        stage("Sonar analysis") {
+                            steps {
+                                echo "Sonar code analysis"
+                                withSonarQubeEnv("Sonarqube_env") {
+                                    dir("./web-services/") {
+                                        sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
+                                    }
+                                }
+                            }
+                        }
+                        stage("Quality Gate") {
+                            steps {
+                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                    timeout(time: 1, unit: "HOURS") {
+                                        waitForQualityGate true
+                                    }
+                                }
+                            }
+                        }
+                        stage("Artifactory Snapshot") {
+                            steps {
+                                configFileProvider([configFile(fileId: "3ec57b41-efe6-4628-a6c7-8be5f1c26d77", variable: "MAVEN_SETTINGS")]) {
+                                    dir("./web-services/") {
+                                        sh "mvn -s $MAVEN_SETTINGS deploy"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    post {
+                        success{
+                            echo "====++++web-services successful++++===="
+                        }
+                        failure{
+                            echo "====++++web-services failed++++===="
+                        }
+                    }
+                }
+                stage("schedule-component") {
+                    stages  {
+                        stage("Install") {
+                            steps {
+                                echo "Compile module"
+                                dir("./schedule-component/") {
+                                    sh "mvn clean compile"
+                                }
+                            }
+                        }
+                        stage("Unit tests") {
+                            steps {
+                                echo "Unit tests module"
+                                dir("./schedule-component/") {
+                                    sh "mvn test"
+                                }
+                            }
+                        }
+                        stage("Test Mutation") {
+                            steps {
+                                echo "Mutation tests"
+                                dir("./schedule-component/") {
+                                    sh "mvn install org.pitest:pitest-maven:mutationCoverage"
+                                }
+                            }
+                        }
+                        stage("Sonar analysis") {
+                            steps {
+                                echo "Sonar code analysis"
+                                withSonarQubeEnv("Sonarqube_env") {
+                                    dir("./schedule-component/") {
+                                        sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
+                                    }
+                                }
+                            }
+                        }
+                        stage("Quality Gate") {
+                            steps {
+                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                    timeout(time: 1, unit: "HOURS") {
+                                        waitForQualityGate true
+                                    }
+                                }
+                            }
+                        }
+                        stage("Artifactory Snapshot") {
+                            steps {
+                                configFileProvider([configFile(fileId: "3ec57b41-efe6-4628-a6c7-8be5f1c26d77", variable: "MAVEN_SETTINGS")]) {
+                                    dir("./schedule-component/") {
+                                        sh "mvn -s $MAVEN_SETTINGS deploy"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    post {
+                        success{
+                            echo "====++++schedule-component successful++++===="
+                        }
+                        failure{
+                            echo "====++++schedule-component failed++++===="
+                        }
+                    }
+                }
             }
         }
     }
-    post{
-        always{
-            archiveArtifacts artifacts: "target/**/*", fingerprint: true
-            junit "target/surefire-reports/*.xml"
-            echo "======== pipeline report ========"
-        }
-        success{
+    post {
+        success {
             echo "======== pipeline executed successfully ========"
         }
-        failure{
+        failure {
             echo "======== pipeline execution failed========"
         }
     }

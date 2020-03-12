@@ -2,14 +2,18 @@ import entities.Delivery;
 import entities.DeliveryStatus;
 import entities.Drone;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+@Stateless
 public class DeliveryBean implements DeliveryInitializer {
 
     // @PersistenceContext
     // private EntityManager entityManager;
 
+    @EJB
     private DroneLauncher droneLauncher;
 
     /**
@@ -24,6 +28,9 @@ public class DeliveryBean implements DeliveryInitializer {
         // entityManager.find(Drone.class, "0"); // todo the drone should have an ID of
         // 0
         delivery.setDeliveryStatus(DeliveryStatus.ONGOING);
+
         return droneLauncher.initializeDroneLaunching(delivery.getDrone());
+
     }
+
 }

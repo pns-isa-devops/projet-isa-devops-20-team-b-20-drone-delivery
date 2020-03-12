@@ -17,15 +17,15 @@ public class DroneAPI {
 
     public boolean getDroneStatus(){
         // Retrieving the drone status
-        JSONObject drone = null;
+        String drone = null;
         try {
             String response = WebClient.create(url).path("/status").get(String.class);
-            drone = new JSONObject(response);
+            drone = response;
         } catch (Exception e) {
             System.out.println("get request failed on /status : "+e);
         }
         // Return the drone status
-        return Boolean.parseBoolean(drone.toString());
+        return Boolean.parseBoolean(drone);
     }
 
     public void launchDrone(Drone drone){

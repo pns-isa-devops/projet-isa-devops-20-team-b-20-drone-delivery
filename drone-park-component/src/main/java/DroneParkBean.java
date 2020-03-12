@@ -26,12 +26,15 @@ public class DroneParkBean implements DroneLauncher {
     @Override
     public boolean initializeDroneLaunching(Drone drone) {
         // Call the dotnet API
+
         this.droneAPI.launchDrone(drone);
+
         drone.setDroneStatus(DroneStatus.ON_DELIVERY);
         // entityManager.persist(drone);
 
         return false;
     }
+
 
     @PostConstruct
     /**
@@ -40,5 +43,6 @@ public class DroneParkBean implements DroneLauncher {
     private void initializeRestPartnership() {
         droneAPI = new DroneAPI();
     }
+
 
 }

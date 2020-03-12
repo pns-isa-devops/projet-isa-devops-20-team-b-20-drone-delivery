@@ -1,4 +1,5 @@
 import entities.Delivery;
+import entities.Drone;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -13,7 +14,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public void startDelivery(String deliveryId) {
-        //deliveryInitializer.initializeDelivery(); //todo
+        deliveryInitializer.initializeDelivery(new Delivery(new Drone())); //todo
     }
 
 }

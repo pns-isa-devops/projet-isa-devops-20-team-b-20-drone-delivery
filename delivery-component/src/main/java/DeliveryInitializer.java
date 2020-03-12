@@ -13,5 +13,4 @@ public interface DeliveryInitializer {
      * @return
      */
     boolean initializeDelivery(Delivery delivery);
-
 }

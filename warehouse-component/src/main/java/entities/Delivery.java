@@ -9,6 +9,8 @@ import java.util.Objects;
 
 public class Delivery implements Serializable {
 
+    private static final long serialVersionUID = -5281177622173992243L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int deliveryId;
@@ -24,7 +26,7 @@ public class Delivery implements Serializable {
      *
      * @param drone to be assigned to the delivery
      */
-    public Delivery(Drone drone){
+    public Delivery(Drone drone) {
         this.deliveryStatus = DeliveryStatus.NOT_DELIVERED;
         this.drone = drone;
     }
@@ -56,7 +58,8 @@ public class Delivery implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == this) return true;
+        if (obj == this)
+            return true;
 
         if (obj instanceof Delivery) {
             Delivery d = (Delivery) obj;

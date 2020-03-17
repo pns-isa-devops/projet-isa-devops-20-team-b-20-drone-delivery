@@ -8,6 +8,8 @@ import java.util.Objects;
 
 public class Parcel implements Serializable {
 
+    private static final long serialVersionUID = -4748724748697106351L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int parcelId;
@@ -23,7 +25,8 @@ public class Parcel implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == this) return true;
+        if (obj == this)
+            return true;
 
         if (obj instanceof Parcel) {
             Parcel d = (Parcel) obj;

@@ -1,19 +1,14 @@
+import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
+
 import entities.Drone;
 import entities.DroneStatus;
 import utils.DroneAPI;
-
-import javax.annotation.PostConstruct;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @Stateless
 public class DroneParkBean implements DroneLauncher {
 
     private DroneAPI droneAPI;
-
-    // @PersistenceContext
-    // private EntityManager entityManager;
 
     /**
      * Initializes drone launching by sending the launch signal to the drone at the
@@ -30,11 +25,9 @@ public class DroneParkBean implements DroneLauncher {
         this.droneAPI.launchDrone(drone);
 
         drone.setDroneStatus(DroneStatus.ON_DELIVERY);
-        // entityManager.persist(drone);
 
         return false;
     }
-
 
     @PostConstruct
     /**
@@ -43,6 +36,5 @@ public class DroneParkBean implements DroneLauncher {
     private void initializeRestPartnership() {
         droneAPI = new DroneAPI();
     }
-
 
 }

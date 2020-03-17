@@ -1,46 +1,39 @@
 package entities;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Objects;
+
+import javax.validation.constraints.NotNull;
 
 public class Delivery implements Serializable {
 
     private static final long serialVersionUID = -5281177622173992243L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int deliveryId;
-
     @NotNull
-    private DeliveryStatus deliveryStatus;
-
     private Drone drone;
 
+    @NotNull
     private Parcel parcel;
+
+    @NotNull
+    private double priceToCharge;
+
+    @NotNull
+    private String deliveryNumber;
+
+    @NotNull
+    private DeliveryStatus status;
+
+    public Delivery() {
+        // default constructor
+    }
 
     /**
      *
      * @param drone to be assigned to the delivery
      */
     public Delivery(Drone drone) {
-        this.deliveryStatus = DeliveryStatus.NOT_DELIVERED;
+        this.status = DeliveryStatus.NOT_DELIVERED;
         this.drone = drone;
-    }
-
-    public int getDeliveryId() {
-        return deliveryId;
-    }
-
-    public DeliveryStatus getDeliveryStatus() {
-        return deliveryStatus;
-    }
-
-    public void setDeliveryStatus(DeliveryStatus deliveryStatus) {
-        this.deliveryStatus = deliveryStatus;
     }
 
     public Drone getDrone() {
@@ -51,26 +44,75 @@ public class Delivery implements Serializable {
         this.drone = drone;
     }
 
+    public Parcel getParcel() {
+        return parcel;
+    }
+
+    public void setParcel(Parcel parcel) {
+        this.parcel = parcel;
+    }
+
+    public double getPriceToCharge() {
+        return priceToCharge;
+    }
+
+    public void setPriceToCharge(double priceToCharge) {
+        this.priceToCharge = priceToCharge;
+    }
+
+    public String getDeliveryNumber() {
+        return deliveryNumber;
+    }
+
+    public void setDeliveryNumber(String deliveryNumber) {
+        this.deliveryNumber = deliveryNumber;
+    }
+
+    public DeliveryStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(DeliveryStatus status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "Delivery " + this.deliveryId;
+        String result = getClass().getSimpleName() + " ";
+        if (drone != null)
+            result += ", drone: " + drone;
+        if (parcel != null)
+            result += ", parcel: " + parcel;
+        result += ", priceToCharge: " + priceToCharge;
+        if (deliveryNumber != null && !deliveryNumber.trim().isEmpty())
+            result += ", deliveryNumber: " + deliveryNumber;
+        if (status != null)
+            result += ", status: " + status;
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == this)
+        if (this == obj) {
             return true;
-
-        if (obj instanceof Delivery) {
-            Delivery d = (Delivery) obj;
-            return this.deliveryId == d.deliveryId;
         }
-        return false;
+        if (!(obj instanceof Delivery)) {
+            return false;
+        }
+        Delivery other = (Delivery) obj;
+        if (deliveryNumber != null) {
+            if (!deliveryNumber.equals(other.deliveryNumber)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.deliveryId, this.deliveryStatus, this.drone, this.parcel);
+        final int prime = 31;
+        int result = 1;
+        return prime * result + ((deliveryNumber == null) ? 0 : deliveryNumber.hashCode());
     }
 
 }

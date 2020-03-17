@@ -13,7 +13,7 @@ public interface DeliveryModifier {
      * @param id
      * @return the scanned parcel or null if it has not been found
      */
-    Parcel scanParcel(String id);
+    Parcel scanParcel(String parcelNumber);
 
     /**
      * Find a specific delivery by his id
@@ -21,5 +21,5 @@ public interface DeliveryModifier {
      * @param id
      * @return the delivery if exist or null
      */
-    Delivery findDelivery(String id);
+    Delivery findDelivery(String deliveryNumber);
 }

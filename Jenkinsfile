@@ -12,7 +12,7 @@ pipeline {
                 echo "Checkout"
             }
         }
-        stage("Analysis on modules 1/3") {
+        stage("Analysis on modules 1/4") {
             parallel  {
                 stage("statistics-component") {
                     stages  {
@@ -144,7 +144,7 @@ pipeline {
                 }
             }
         }
-        stage("Analysis on modules 2/3") {
+        stage("Analysis on modules 2/4") {
             parallel  {
                 stage("drone-park-component") {
                     stages  {
@@ -276,7 +276,7 @@ pipeline {
                 }
             }
         }
-        stage("Analysis on modules 3/3") {
+        stage("Analysis on modules 3/4") {
             parallel  {
                 stage("web-services") {
                     stages  {
@@ -403,6 +403,74 @@ pipeline {
                         }
                         failure{
                             echo "====++++schedule-component failed++++===="
+                        }
+                    }
+                }
+            }
+        }
+        stage("Analysis on modules 4/4") {
+            parallel  {
+                stage("warehouse module") {
+                    stages  {
+                        stage("Install") {
+                            steps {
+                                echo "Compile module"
+                                dir("./warehouse-component/") {
+                                    sh "mvn clean compile"
+                                }
+                            }
+                        }
+                        stage("Unit tests") {
+                            steps {
+                                echo "Unit tests module"
+                                dir("./warehouse-component/") {
+                                    sh "mvn test"
+                                }
+                            }
+                        }
+                        stage("Test Mutation") {
+                            steps {
+                                echo "Mutation tests"
+                                dir("./warehouse-component/") {
+                                    sh "mvn install org.pitest:pitest-maven:mutationCoverage"
+                                }
+                            }
+                        }
+                        stage("Sonar analysis") {
+                            steps {
+                                echo "Sonar code analysis"
+                                withSonarQubeEnv("Sonarqube_env") {
+                                    dir("./warehouse-component/") {
+                                        sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
+                                    }
+                                }
+                            }
+                        }
+                        stage("Quality Gate") {
+                            steps {
+                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                    timeout(time: 1, unit: "HOURS") {
+                                        waitForQualityGate true
+                                    }
+                                }
+                            }
+                        }
+                        stage("Artifactory Snapshot") {
+                            steps {
+                                configFileProvider([configFile(fileId: "3ec57b41-efe6-4628-a6c7-8be5f1c26d77", variable: "MAVEN_SETTINGS")]) {
+                                    dir("./warehouse-component/") {
+                                        sh "mvn -s $MAVEN_SETTINGS deploy"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    post {
+                        success{
+                            echo "====++++warehouse-component successful++++===="
+                        }
+                        failure{
+                            echo "====++++warehouse-component failed++++===="
                         }
                     }
                 }

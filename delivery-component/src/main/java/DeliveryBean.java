@@ -1,11 +1,8 @@
-import entities.Delivery;
-import entities.DeliveryStatus;
-import entities.Drone;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+
+import entities.Delivery;
+import entities.DeliveryStatus;
 
 @Stateless
 public class DeliveryBean implements DeliveryInitializer {

@@ -12,6 +12,7 @@
         <module>schedule-component</module>
         <module>drone-park-component</module>
         <module>invoice-component</module>
+        <module>warehouse-component</module>
         <module>statistics-component</module>
         <module>delivery-component</module>
     </modules>

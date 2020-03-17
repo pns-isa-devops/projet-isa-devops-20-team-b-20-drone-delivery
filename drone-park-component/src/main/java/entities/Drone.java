@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
-
 public class Drone implements Serializable {
 
     @Id
@@ -17,7 +16,7 @@ public class Drone implements Serializable {
     @NotNull
     private DroneStatus droneStatus;
 
-    public Drone(){
+    public Drone() {
         // Default : the drone newly created is available
         // Necessary for JPA instantiation process
         this.droneStatus = DroneStatus.AVAILABLE;
@@ -42,13 +41,13 @@ public class Drone implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == this) return true;
+        if (obj == this)
+            return true;
 
         if (obj != null)
             return (obj.hashCode() == Objects.hash(this.droneId, this.droneStatus));
 
         return false;
     }
-
 
 }

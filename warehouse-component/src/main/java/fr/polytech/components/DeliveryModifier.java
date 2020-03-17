@@ -1,7 +1,9 @@
+package fr.polytech.components;
+
 import javax.ejb.Local;
 
-import entities.Delivery;
-import entities.Parcel;
+import fr.polytech.entities.Delivery;
+import fr.polytech.entities.Parcel;
 
 @Local
 public interface DeliveryModifier {

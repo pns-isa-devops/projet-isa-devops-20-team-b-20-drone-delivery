@@ -1,8 +1,10 @@
-package entities;
+package fr.polytech.entities;
 
 import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
+
+import entities.Drone;
 
 public class Delivery implements Serializable {
 

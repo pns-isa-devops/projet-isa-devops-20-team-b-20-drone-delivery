@@ -1,4 +1,4 @@
-package entities;
+package fr.polytech.entities;
 
 import java.io.Serializable;
 

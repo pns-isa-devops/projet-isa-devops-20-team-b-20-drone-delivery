@@ -1,8 +1,8 @@
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import entities.Delivery;
-import entities.DeliveryStatus;
+import fr.polytech.entities.Delivery;
+import fr.polytech.entities.DeliveryStatus;
 
 @Stateless
 public class DeliveryBean implements DeliveryInitializer {
@@ -18,8 +18,8 @@ public class DeliveryBean implements DeliveryInitializer {
      * @return
      */
     @Override
-    public boolean initializeDelivery(Delivery delivery) {
-        delivery.setDeliveryStatus(DeliveryStatus.ONGOING);
+    public boolean initializeDelivery(final Delivery delivery) {
+        delivery.setStatus(DeliveryStatus.ONGOING);
 
         return droneLauncher.initializeDroneLaunching(delivery.getDrone());
 

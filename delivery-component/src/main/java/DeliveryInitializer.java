@@ -1,6 +1,6 @@
 import javax.ejb.Local;
 
-import entities.Delivery;
+import fr.polytech.entities.Delivery;
 
 @Local
 public interface DeliveryInitializer {

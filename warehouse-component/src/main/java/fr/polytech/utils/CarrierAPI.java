@@ -24,13 +24,8 @@ public class CarrierAPI {
         this.url = "http://" + host + ":" + port;
     }
 
-    public CarrierAPI withMockedParcels(List<Parcel> parcels) {
+    public CarrierAPI withControlledParcels(List<Parcel> parcels) {
         this.parcels = parcels;
-        return this;
-    }
-
-    public CarrierAPI withMockedDeliveries(List<Delivery> deliveries) {
-        this.deliveries = deliveries;
         return this;
     }
 

@@ -3,7 +3,8 @@ package fr.polytech.components;
 import javax.ejb.Local;
 
 import fr.polytech.entities.Delivery;
-import fr.polytech.entities.Parcel;
+import fr.polytech.exception.UnknownDeliveryException;
+import fr.polytech.exception.UnknownParcelException;
 
 @Local
 public interface DeliveryModifier {
@@ -13,9 +14,11 @@ public interface DeliveryModifier {
      * in his state
      *
      * @param id
-     * @return the scanned parcel or null if it has not been found
+     * @return the scanned parcel in a new delivery
+     * @throws UnknownParcelException if the parcel those not existe in the database
+     *                                of the carrier
      */
-    Parcel scanParcel(String parcelNumber);
+    Delivery scanParcel(String parcelNumber) throws UnknownParcelException;
 
     /**
      * Find a specific delivery by his id
@@ -23,5 +26,5 @@ public interface DeliveryModifier {
      * @param id
      * @return the delivery if exist or null
      */
-    Delivery findDelivery(String deliveryNumber);
+    Delivery findDelivery(String deliveryNumber) throws UnknownDeliveryException;
 }

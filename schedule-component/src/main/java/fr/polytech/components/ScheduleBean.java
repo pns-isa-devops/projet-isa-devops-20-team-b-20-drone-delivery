@@ -1,7 +1,8 @@
+package fr.polytech.components;
+
 import entities.Drone;
 import entities.TimeSlot;
 import entities.TimeState;
-import fr.polytech.components.DeliveryModifier;
 import fr.polytech.entities.Delivery;
 
 import javax.ejb.EJB;

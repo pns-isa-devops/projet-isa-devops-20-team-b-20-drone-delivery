@@ -4,9 +4,12 @@ import entities.Drone;
 import entities.TimeSlot;
 import entities.TimeState;
 import fr.polytech.entities.Delivery;
+import utils.DroneAPI;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import java.sql.Time;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,24 +31,16 @@ public class ScheduleBean implements DeliveryOrganizer, DeliveryScheduler {
     @Override
     public boolean scheduleDelivery(Date date, Delivery delivery)
     {
-
         // Stage 1 : Check that the asked timeslot is available
-        for(TimeSlot ts : drone.getTimeSlots())
-        {
-            if(ts.getDate().equals(date)) return false;
-        }
+        if(!dateIsAvailable(date)) return false;
 
         // Stage 2 : Set the timeslot
 
-        TimeSlot timeslot = new TimeSlot();
-        timeslot.setDelivery(delivery);
-        timeslot.setDate(date);
-        timeslot.setState(TimeState.DELIVERY);
-        drone.getTimeSlots().add(timeslot);
+        createDeliveryTimeSlot(date, delivery);
 
         // Stage 3 : Remove CHARGING and UNAVAILABLE slots in order to obtain only DELIVERY timeslots
 
-        Set<TimeSlot> timeslots = new TreeSet<>(drone.getTimeSlots().stream().filter(ts -> ts.getState().equals(TimeState.DELIVERY)).collect(Collectors.toSet())) ;
+        Set<TimeSlot> timeslots = getTimeSlotsWithOnlyDeliveries();
 
         // Stage 3.1 : Set back the CHARGING time slots
         setChargingTimeSlots(timeslots);
@@ -55,11 +50,37 @@ public class ScheduleBean implements DeliveryOrganizer, DeliveryScheduler {
         return true;
     }
 
+    public Set<TimeSlot> getTimeSlotsWithOnlyDeliveries()
+    {
+        return new TreeSet<>(drone.getTimeSlots().stream().filter(ts -> ts.getState().equals(TimeState.DELIVERY)).collect(Collectors.toSet())) ;
+    }
+
+    public boolean dateIsAvailable(Date date) {
+        for(TimeSlot ts : drone.getTimeSlots())
+        {
+            if(ts.getDate().equals(date)) return false;
+        }
+        return true;
+    }
+
+    /**
+     * Create a time slot for delivery
+     * @param date
+     * @param delivery
+     */
+    public void createDeliveryTimeSlot(Date date, Delivery delivery) {
+        TimeSlot timeslot = new TimeSlot();
+        timeslot.setDelivery(delivery);
+        timeslot.setDate(date);
+        timeslot.setState(TimeState.DELIVERY);
+        drone.getTimeSlots().add(timeslot);
+    }
+
     /**
      * Take a set of time slot and add CHARGING time slots where the drone needs charge
      * @param timeslots
      */
-    private void setChargingTimeSlots(Set<TimeSlot> timeslots){
+    public void setChargingTimeSlots(Set<TimeSlot> timeslots){
 
         int count = 0;
         for(Iterator<TimeSlot> it = timeslots.iterator(); it.hasNext();) {
@@ -79,7 +100,7 @@ public class ScheduleBean implements DeliveryOrganizer, DeliveryScheduler {
      * Take a set of time slot and add UNAVAILABLE time slots where it's impossible to schedule a delivery
      * @param timeslots
      */
-    private void setUnavailableTimeSlots(Set<TimeSlot> timeslots){
+    public void setUnavailableTimeSlots(Set<TimeSlot> timeslots){
         Iterator<TimeSlot> it = timeslots.iterator();
         if(!it.hasNext()){
             return;
@@ -105,6 +126,14 @@ public class ScheduleBean implements DeliveryOrganizer, DeliveryScheduler {
             }
             first = next;
         }
+    }
+
+    @PostConstruct
+    /**
+     * Init the drone API on localhost
+     */
+    public void initDrone() {
+        drone = new Drone();
     }
 
 }

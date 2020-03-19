@@ -1,3 +1,5 @@
+package fr.polytech.components;
+
 import javax.ejb.Local;
 
 import fr.polytech.entities.Delivery;

@@ -23,7 +23,7 @@ public class Delivery implements Serializable {
     private DeliveryStatus status;
 
     public Delivery() {
-        // default constructor
+        this.status = DeliveryStatus.NOT_DELIVERED;
     }
 
     /**

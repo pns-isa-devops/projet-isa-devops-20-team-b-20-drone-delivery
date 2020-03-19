@@ -16,7 +16,7 @@ http://localhost:8080/drone-delivery-backend/webservices/DeliveryWS?wsdl
 
 to use if your server is more powerfull than mine :'(
 
-```groove
+```groovy
 pipeline{
     agent any
     options {

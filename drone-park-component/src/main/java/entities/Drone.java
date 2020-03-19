@@ -1,11 +1,15 @@
 package entities;
 
+import javax.ejb.EJB;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Drone implements Serializable {
 
@@ -16,10 +20,13 @@ public class Drone implements Serializable {
     @NotNull
     private DroneStatus droneStatus;
 
+    private Set<TimeSlot> timeSlots;
+
     public Drone() {
         // Default : the drone newly created is available
         // Necessary for JPA instantiation process
         this.droneStatus = DroneStatus.AVAILABLE;
+        this.timeSlots = new TreeSet<>();
     }
 
     public int getDroneId() {
@@ -32,6 +39,11 @@ public class Drone implements Serializable {
 
     public void setDroneStatus(DroneStatus droneStatus) {
         this.droneStatus = droneStatus;
+    }
+
+    public Set<TimeSlot> getTimeSlots()
+    {
+        return timeSlots;
     }
 
     @Override

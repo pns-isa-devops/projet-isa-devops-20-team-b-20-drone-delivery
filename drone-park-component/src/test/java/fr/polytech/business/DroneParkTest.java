@@ -13,6 +13,8 @@ import entities.Drone;
 import entities.DroneStatus;
 import fr.polytech.components.DroneLauncher;
 
+import java.util.Date;
+
 /**
  * DronePark
  */
@@ -20,13 +22,21 @@ import fr.polytech.components.DroneLauncher;
 public class DroneParkTest extends AbstractDroneParkTest {
 
     @EJB
-    private DroneLauncher droneLaucnher;
+    private DroneLauncher droneLauncher;
 
     @Test
     public void initializeDroneLaunchingTest() {
         Drone droneTest = new Drone();
         assertEquals(DroneStatus.AVAILABLE, droneTest.getDroneStatus());
-        droneLaucnher.initializeDroneLaunching(droneTest);
+        droneLauncher.initializeDroneLaunching(droneTest, new Date());
+        assertEquals(DroneStatus.ON_DELIVERY, droneTest.getDroneStatus());
+    }
+
+    @Test
+    public void initializeDroneLaunchingOtherDateTest() {
+        Drone droneTest = new Drone();
+        assertEquals(DroneStatus.AVAILABLE, droneTest.getDroneStatus());
+        droneLauncher.initializeDroneLaunching(droneTest, new Date(2020, 3, 19, 18, 37));
         assertEquals(DroneStatus.ON_DELIVERY, droneTest.getDroneStatus());
     }
 }

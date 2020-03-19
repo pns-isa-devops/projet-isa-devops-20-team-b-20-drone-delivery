@@ -17,9 +17,6 @@ public class Delivery implements Serializable {
     private Parcel parcel;
 
     @NotNull
-    private double priceToCharge;
-
-    @NotNull
     private String deliveryNumber;
 
     @NotNull
@@ -54,14 +51,6 @@ public class Delivery implements Serializable {
         this.parcel = parcel;
     }
 
-    public double getPriceToCharge() {
-        return priceToCharge;
-    }
-
-    public void setPriceToCharge(double priceToCharge) {
-        this.priceToCharge = priceToCharge;
-    }
-
     public String getDeliveryNumber() {
         return deliveryNumber;
     }
@@ -85,7 +74,6 @@ public class Delivery implements Serializable {
             result += ", drone: " + drone;
         if (parcel != null)
             result += ", parcel: " + parcel;
-        result += ", priceToCharge: " + priceToCharge;
         if (deliveryNumber != null && !deliveryNumber.trim().isEmpty())
             result += ", deliveryNumber: " + deliveryNumber;
         if (status != null)

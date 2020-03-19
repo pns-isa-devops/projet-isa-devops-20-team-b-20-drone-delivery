@@ -5,6 +5,7 @@ import org.apache.cxf.jaxrs.client.WebClient;
 import org.json.JSONObject;
 
 import javax.ws.rs.core.MediaType;
+import java.util.Date;
 
 public class DroneAPI {
     private String url;
@@ -30,14 +31,16 @@ public class DroneAPI {
         return Boolean.parseBoolean(drone);
     }
 
-    public void launchDrone(Drone drone) {
+    public void launchDrone(Drone drone, Date launchHour) {
 
         if (!getDroneStatus()) {
             return;
         }
 
+        String launchHourString = launchHour.getHours() + ":" + launchHour.getMinutes();
+
         // Build request
-        JSONObject request = new JSONObject().put("DroneId", drone.getDroneId());
+        JSONObject request = new JSONObject().put("id", drone.getDroneId()).put("hour", launchHourString);
 
         // Launch
         try {

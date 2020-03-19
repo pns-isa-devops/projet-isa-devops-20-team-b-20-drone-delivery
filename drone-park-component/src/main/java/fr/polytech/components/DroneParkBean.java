@@ -7,6 +7,8 @@ import entities.Drone;
 import entities.DroneStatus;
 import utils.DroneAPI;
 
+import java.util.Date;
+
 @Stateless
 public class DroneParkBean implements DroneLauncher {
 
@@ -20,9 +22,9 @@ public class DroneParkBean implements DroneLauncher {
      * @return
      */
     @Override
-    public boolean initializeDroneLaunching(Drone drone) {
+    public boolean initializeDroneLaunching(Drone drone, Date launchHour) {
         // Call the dotnet API
-        this.droneAPI.launchDrone(drone);
+        this.droneAPI.launchDrone(drone, launchHour);
         drone.setDroneStatus(DroneStatus.ON_DELIVERY);
         return false;
     }

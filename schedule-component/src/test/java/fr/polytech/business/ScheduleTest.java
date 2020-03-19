@@ -36,8 +36,8 @@ public class ScheduleTest extends AbstractScheduleTest {
     @Test //Fonctionnel
     public void scheduleDeliveryTestWithNothing() {
         Delivery delivery = new Delivery();
-        deliveryScheduler.scheduleDelivery(new Date(new Date().getTime() + 1000), delivery);
-        Delivery next = deliveryOrganizer.getNextDelivery();
+        schedule.scheduleDelivery(new Date(new Date().getTime() + 1000), delivery);
+        Delivery next = schedule.getNextDelivery();
         assertEquals(delivery, next);
     }
 

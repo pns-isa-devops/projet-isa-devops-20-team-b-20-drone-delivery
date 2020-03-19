@@ -30,6 +30,50 @@ pipeline{
                             }
                        }
                     }
+                    stage("Unit tests") {
+                        steps {
+                            echo "Unit tests module"
+                            dir(MODULE) {
+                                sh "mvn test"
+                            }
+                        }
+                    }
+                    stage("Sonar analysis") {
+                        steps {
+                            echo "Sonar code analysis"
+                            withSonarQubeEnv("Sonarqube_env") {
+                                dir(MODULE) {
+                                    sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
+                                }
+                            }
+                        }
+                    }
+                    stage("Quality Gate") {
+                        steps {
+                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                timeout(time: 1, unit: "HOURS") {
+                                    waitForQualityGate true
+                                }
+                            }
+                        }
+                    }
+                    stage("Artifactory Snapshot") {
+                        steps {
+                            configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
+                                dir(MODULE) {
+                                    sh "mvn -s $MAVEN_SETTINGS deploy"
+                                }
+                            }
+                        }
+                    }
+                }
+                post {
+                    success{
+                        echo "====++++component successful++++===="
+                    }
+                    failure{
+                        echo "====++++component failed++++===="
+                    }
                 }
             }
         }

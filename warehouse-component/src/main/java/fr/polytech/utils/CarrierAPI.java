@@ -2,7 +2,6 @@ package fr.polytech.utils;
 
 import java.util.List;
 
-import fr.polytech.entities.Delivery;
 import fr.polytech.entities.Parcel;
 
 /**
@@ -12,7 +11,6 @@ public class CarrierAPI {
 
     private String url;
     private List<Parcel> parcels;
-    private List<Delivery> deliveries;
 
     /**
      * not to be used for now (mocked value)
@@ -41,16 +39,6 @@ public class CarrierAPI {
         // @formatter:off
         return parcels.stream()
                     .filter(p -> p.getParcelNumber().equals(parcelNumber))
-                    .findAny()
-                    .orElse(null);
-        // @formatter:on
-    }
-
-    public Delivery getDeliveryInformation(String deliveryNumber) {
-        // just to test
-        // @formatter:off
-        return deliveries.stream()
-                    .filter(d -> d.getDeliveryNumber().equals(deliveryNumber))
                     .findAny()
                     .orElse(null);
         // @formatter:on

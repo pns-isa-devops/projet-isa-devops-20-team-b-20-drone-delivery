@@ -11,7 +11,7 @@ import fr.polytech.utils.CarrierAPI;
  * ControlledParcel
  */
 @Local
-public interface ControlledParcel {
+public interface ControlledParcel extends DeliveryModifier {
 
     void useCarrierReference(CarrierAPI carrier);
 

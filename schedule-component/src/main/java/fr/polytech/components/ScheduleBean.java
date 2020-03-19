@@ -24,8 +24,12 @@ public class ScheduleBean implements DeliveryOrganizer, DeliveryScheduler {
 
     @Override
     public Delivery getNextDelivery() {
-        List<Delivery> deliveries  = drone.getTimeSlots().stream().filter(timeSlot -> timeSlot.getDate().getTime() > new Date().getTime()).map(TimeSlot::getDelivery).collect(Collectors.toList());
-        if(deliveries.size() > 0){
+        List<Delivery> deliveries  = drone.getTimeSlots()
+                .stream()
+                .filter(timeSlot -> timeSlot.getDate().getTime() > new Date().getTime())
+                .map(TimeSlot::getDelivery)
+                .collect(Collectors.toList());
+        if(!deliveries.isEmpty()){
             return deliveries.get(0);
         }
         else{
@@ -53,6 +57,8 @@ public class ScheduleBean implements DeliveryOrganizer, DeliveryScheduler {
         setUnavailableTimeSlots(timeslots);
 
         setNewSchedule(drone, timeslots);
+
+        delivery.setDrone(drone);
 
         return true;
     }
@@ -110,11 +116,13 @@ public class ScheduleBean implements DeliveryOrganizer, DeliveryScheduler {
     public void setChargingTimeSlots(Set<TimeSlot> timeslots){
 
         int count = 0;
-        for(Iterator<TimeSlot> it = timeslots.iterator(); it.hasNext();) {
-            TimeSlot ts =  it.next();
-            if(ts.getState() == TimeState.DELIVERY) {
+        for (TimeSlot ts : timeslots)
+        {
+            if (ts.getState() == TimeState.DELIVERY)
+            {
                 count++;
-                if(count%2 == 0) {
+                if (count % 2 == 0)
+                {
                     TimeSlot chargingTs = new TimeSlot();
                     chargingTs.setDate(new Date(ts.getDate().getTime() + DURING_15_MIN));
                     chargingTs.setState(TimeState.CHARGING);
@@ -129,16 +137,14 @@ public class ScheduleBean implements DeliveryOrganizer, DeliveryScheduler {
      * @param timeslots
      */
     public void setUnavailableTimeSlots(Set<TimeSlot> timeslots){
-        Iterator<TimeSlot> it = timeslots.iterator();
-        if(!it.hasNext()){
-            return;
-        }
-        TimeSlot first = it.next();
-
-        while(it.hasNext()) {
+        List<TimeSlot> tss = new ArrayList<>(timeslots);
+        TimeSlot first = tss.get(0);
+        for(int i = 0; i<tss.size(); i++) {
             TimeSlot next;
             do {
-                next = it.next();
+                i++;
+                if(i>=tss.size()) return;
+                next = tss.get(i);
             } while (next.getState() != TimeState.DELIVERY);
 
             if (next.getDate().getTime() - first.getDate().getTime() < 2 * DURING_15_MIN) {

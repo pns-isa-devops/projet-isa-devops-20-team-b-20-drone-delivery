@@ -9,6 +9,8 @@
 
     <artifactId>drone-park-component</artifactId>
     <version>0.1-SNAPSHOT</version>
+    <dependencies>
+    </dependencies>
 
 
 </project>

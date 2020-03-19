@@ -1,3 +1,5 @@
+package fr.polytech.components;
+
 import entities.Drone;
 
 import javax.ejb.Local;

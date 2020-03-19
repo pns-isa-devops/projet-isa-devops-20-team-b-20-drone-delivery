@@ -1,3 +1,5 @@
+package fr.polytech.components;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 

@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.validation.constraints.NotNull;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Objects;
 
 public class TimeSlot implements Comparable
 {
@@ -50,6 +51,25 @@ public class TimeSlot implements Comparable
     @Override
     public int compareTo(Object o)
     {
-        return 0;
+        return date.compareTo(((TimeSlot)o).getDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return date.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof TimeSlot))
+            return false;
+
+        if (obj == this)
+            return true;
+
+        return date.equals(((TimeSlot)obj).getDate())
+                && delivery.equals(((TimeSlot)obj).getDelivery())
+                && state.equals(((TimeSlot)obj).getState());
+
     }
 }

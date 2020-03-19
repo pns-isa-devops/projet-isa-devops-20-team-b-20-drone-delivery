@@ -22,7 +22,7 @@ pipeline {
                         stage("Install") {
                             steps {
                                 echo "Compile module"
-                                dir($DIR) {
+                                dir(DIR) {
                                     sh "mvn clean compile"
                                 }
                             }
@@ -30,7 +30,7 @@ pipeline {
                         stage("Unit tests") {
                             steps {
                                 echo "Unit tests module"
-                                dir($DIR) {
+                                dir(DIR) {
                                     sh "mvn test"
                                 }
                             }
@@ -38,7 +38,7 @@ pipeline {
                         stage("Test Mutation") {
                             steps {
                                 echo "Mutation tests"
-                                dir($DIR) {
+                                dir(DIR) {
                                     sh "mvn install org.pitest:pitest-maven:mutationCoverage"
                                 }
                             }
@@ -47,7 +47,7 @@ pipeline {
                             steps {
                                 echo "Sonar code analysis"
                                 withSonarQubeEnv("Sonarqube_env") {
-                                    dir($DIR) {
+                                    dir(DIR) {
                                         sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
                                     }
                                 }
@@ -65,7 +65,7 @@ pipeline {
                         stage("Artifactory Snapshot") {
                             steps {
                                 configFileProvider([configFile(fileId: "3ec57b41-efe6-4628-a6c7-8be5f1c26d77", variable: "MAVEN_SETTINGS")]) {
-                                    dir($DIR) {
+                                    dir(DIR) {
                                         sh "mvn -s $MAVEN_SETTINGS deploy"
                                     }
                                 }

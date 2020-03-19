@@ -13,10 +13,10 @@ pipeline{
                 echo "Checkout"
             }
         }
-        stage("Install") {
+        stage("Compile") {
             steps {
-                echo "Install module"
-                sh "mvn clean install"
+                echo "Compile module"
+                sh "mvn clean compile"
             }
         }
         stage("statistics-component"){
@@ -25,7 +25,7 @@ pipeline{
                     configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
                         dir("statistics-component") {
                             echo "Unit tests module"
-                            sh "mvn test"
+                            sh "mvn install test"
                             echo "Deployment into artifactory"
                             sh "mvn -s $MAVEN_SETTINGS deploy"
                         }

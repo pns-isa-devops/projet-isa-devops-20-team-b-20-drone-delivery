@@ -20,7 +20,6 @@ import java.util.Set;
 
 import static org.junit.Assert.*;
 
-
 @RunWith(Arquillian.class)
 public class ScheduleTest extends AbstractScheduleTest {
 
@@ -33,7 +32,7 @@ public class ScheduleTest extends AbstractScheduleTest {
     @Inject
     private ScheduleBean schedule;
 
-    @Test //Fonctionnel
+    @Test // Fonctionnel
     public void scheduleDeliveryTestWithNothing() {
         Delivery delivery = new Delivery();
         schedule.scheduleDelivery(new Date(new Date().getTime() + 1000), delivery);
@@ -91,10 +90,10 @@ public class ScheduleTest extends AbstractScheduleTest {
     }
 
     @Test
-    public void getNextDeliveriesTest(){
+    public void getNextDeliveriesTest() {
 
         assertNull(deliveryOrganizer.getNextDelivery());
-        assertTrue(deliveryScheduler.scheduleDelivery(new Date(),new Delivery()));
+        assertTrue(deliveryScheduler.scheduleDelivery(new Date(), new Delivery()));
         assertNull(deliveryOrganizer.getNextDelivery());
 
     }

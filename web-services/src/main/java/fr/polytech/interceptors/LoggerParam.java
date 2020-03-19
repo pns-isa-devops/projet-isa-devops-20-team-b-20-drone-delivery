@@ -1,4 +1,4 @@
-package interceptors;
+package fr.polytech.interceptors;
 
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;

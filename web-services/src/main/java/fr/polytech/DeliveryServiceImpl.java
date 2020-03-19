@@ -1,3 +1,5 @@
+package fr.polytech;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
@@ -24,14 +26,14 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     /**
-     * Get the delivery corresponding to deliveryId from the deliveryModifier component and
-     * start the shipment with it
+     * Get the delivery corresponding to deliveryId from the deliveryModifier
+     * component and start the shipment with it
      */
     public void startDelivery(String deliveryId) throws Exception {
         Delivery deliveryFromWharehouse = deliveryModifier.findDelivery(deliveryId);
 
         // If the delivery doesn't have a drone associated there is a problem
-        if(deliveryFromWharehouse.getDrone() == null){
+        if (deliveryFromWharehouse.getDrone() == null) {
             throw new Exception("There is no drone on this delivery");
         }
         deliveryInitializer.initializeDelivery(deliveryFromWharehouse);

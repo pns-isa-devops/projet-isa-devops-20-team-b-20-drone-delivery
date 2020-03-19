@@ -17,7 +17,6 @@ pipeline {
                 stage("statistics-component") {
                     agent {
                         node {
-                            label 'statistics-component-label'
                             customWorkspace './statistics-component/'
                         }
                     }
@@ -77,7 +76,6 @@ pipeline {
                 stage("delivery-component") {
                     agent {
                         node {
-                            label 'delivery-component-label'
                             customWorkspace './delivery-component/'
                         }
                     }
@@ -141,7 +139,6 @@ pipeline {
                 stage("drone-park-component") {
                     agent {
                         node {
-                            label 'drone-park-label'
                             customWorkspace './drone-park-component/'
                         }
                     }
@@ -201,7 +198,6 @@ pipeline {
                 stage("invoice-component") {
                     agent {
                         node {
-                            label 'invoice-component-label'
                             customWorkspace './invoice-component/'
                         }
                     }
@@ -265,7 +261,6 @@ pipeline {
                 stage("web-services") {
                     agent {
                         node {
-                            label 'web-services-label'
                             customWorkspace './web-services/'
                         }
                     }
@@ -325,7 +320,6 @@ pipeline {
                 stage("schedule-component") {
                     agent {
                         node {
-                            label 'schedule-component-label'
                             customWorkspace './schedule-component/'
                         }
                     }
@@ -389,7 +383,6 @@ pipeline {
                 stage("warehouse module") {
                     agent {
                         node {
-                            label 'warehouse-component-label'
                             customWorkspace './warehouse-component/'
                         }
                     }

@@ -16,6 +16,11 @@
             <artifactId>warehouse-component</artifactId>
             <version>0.2-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>fr.unice.polytech.isadevops.dronedelivery</groupId>
+            <artifactId>drone-park-component</artifactId>
+            <version>0.1</version>
+        </dependency>
     </dependencies>
 
 </project>

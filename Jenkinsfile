@@ -13,6 +13,12 @@ pipeline{
                 echo "Checkout"
             }
         }
+        stage("Install") {
+            steps {
+                echo "Compile module"
+                sh "mvn clean compile"
+            }
+        }
         stage("build modules") {
             matrix {
                 axes {
@@ -22,38 +28,11 @@ pipeline{
                     }
                 }
                 stages {
-                    stage("Install") {
-                       steps {
-                           echo "Compile module"
-                            dir(MODULE) {
-                                sh "mvn clean compile"
-                            }
-                       }
-                    }
                     stage("Unit tests") {
                         steps {
                             echo "Unit tests module"
                             dir(MODULE) {
                                 sh "mvn test"
-                            }
-                        }
-                    }
-                    stage("Sonar analysis") {
-                        steps {
-                            echo "Sonar code analysis"
-                            withSonarQubeEnv("Sonarqube_env") {
-                                dir(MODULE) {
-                                    sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
-                                }
-                            }
-                        }
-                    }
-                    stage("Quality Gate") {
-                        steps {
-                            catchError(buildResult: "SUCCESS", stageResult: "FAILURE") {
-                                timeout(time: 1, unit: "HOURS") {
-                                    waitForQualityGate true
-                                }
                             }
                         }
                     }
@@ -73,6 +52,23 @@ pipeline{
                     }
                     failure{
                         echo "====++++component failed++++===="
+                    }
+                }
+            }
+        }
+        stage("Sonar analysis") {
+            steps {
+                echo "Sonar code analysis"
+                withSonarQubeEnv("Sonarqube_env") {
+                    sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
+                }
+            }
+        }
+        stage("Quality Gate") {
+            steps {
+                catchError(buildResult: "SUCCESS", stageResult: "FAILURE") {
+                    timeout(time: 1, unit: "HOURS") {
+                        waitForQualityGate true
                     }
                 }
             }

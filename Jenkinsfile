@@ -17,12 +17,12 @@ pipeline{
             matrix {
                 axes {
                     axis {
-                        name 'MODULE'
-                        values 'statistics-component','delivery-component','drone-park-component'
+                        name "MODULE"
+                        values "statistics-component","delivery-component","drone-park-component", "invoice-component", "schedule-component", "warehouse module" , "web-services"
                     }
                 }
                 stages {
-                    stage('Install') {
+                    stage("Install") {
                        steps {
                            echo "Compile module"
                             dir(MODULE) {
@@ -50,7 +50,7 @@ pipeline{
                     }
                     stage("Quality Gate") {
                         steps {
-                            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            catchError(buildResult: "SUCCESS", stageResult: "FAILURE") {
                                 timeout(time: 1, unit: "HOURS") {
                                     waitForQualityGate true
                                 }

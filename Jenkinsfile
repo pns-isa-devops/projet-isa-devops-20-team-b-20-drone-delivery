@@ -15,8 +15,10 @@ pipeline{
         }
         stage("Compile") {
             steps {
-                echo "Compile module"
-                sh "mvn clean compile"
+                configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
+                    echo "Compile module"
+                    sh "mvn -s $MAVEN_SETTINGS clean compile"
+                }
             }
         }
         stage("statistics-component"){
@@ -25,7 +27,7 @@ pipeline{
                     configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
                         dir("statistics-component") {
                             echo "Unit tests module"
-                            sh "mvn test -Djdk.attach.allowAttachSelf=true"
+                            sh "mvn test"
                             echo "Deployment into artifactory"
                             sh "mvn -s $MAVEN_SETTINGS deploy"
                         }
@@ -127,7 +129,7 @@ pipeline{
         }
         stage("Quality Gate") {
             steps {
-                catchError(buildResult: "SUCCESS", stageResult: "FAILURE") {
+                catchError(buildResult: "SUCCESS", stageResult: "FAILED") {
                     timeout(time: 1, unit: "HOURS") {
                         waitForQualityGate true
                     }

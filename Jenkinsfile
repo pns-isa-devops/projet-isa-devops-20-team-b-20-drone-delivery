@@ -17,6 +17,7 @@ pipeline {
                 stage("statistics-component") {
                     agent {
                         node {
+                            label any
                             customWorkspace './statistics-component/'
                         }
                     }
@@ -76,6 +77,7 @@ pipeline {
                 stage("delivery-component") {
                     agent {
                         node {
+                            label any
                             customWorkspace './delivery-component/'
                         }
                     }
@@ -139,6 +141,7 @@ pipeline {
                 stage("drone-park-component") {
                     agent {
                         node {
+                            label any
                             customWorkspace './drone-park-component/'
                         }
                     }
@@ -198,6 +201,7 @@ pipeline {
                 stage("invoice-component") {
                     agent {
                         node {
+                            label any
                             customWorkspace './invoice-component/'
                         }
                     }
@@ -261,6 +265,7 @@ pipeline {
                 stage("web-services") {
                     agent {
                         node {
+                            label any
                             customWorkspace './web-services/'
                         }
                     }
@@ -320,6 +325,7 @@ pipeline {
                 stage("schedule-component") {
                     agent {
                         node {
+                            label any
                             customWorkspace './schedule-component/'
                         }
                     }
@@ -383,6 +389,7 @@ pipeline {
                 stage("warehouse module") {
                     agent {
                         node {
+                            label any
                             customWorkspace './warehouse-component/'
                         }
                     }

@@ -5,7 +5,6 @@ pipeline {
     options {
         disableConcurrentBuilds()
         timeout(time: 1, unit: "HOURS")
-        skipStagesAfterUnstable()
     }
     environment {
         MVN_SETTING_PROVIDER = "3ec57b41-efe6-4628-a6c7-8be5f1c26d77"
@@ -18,6 +17,7 @@ pipeline {
         }
         stage("Analysis on modules 1/4") {
             parallel  {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                 stage("statistics-component") {
                     environment {
                         DIR = "./statistics-component/"
@@ -84,6 +84,7 @@ pipeline {
                             echo "====++++statistics-component failed++++===="
                         }
                     }
+                }
                 }
                 stage("delivery-component") {
                     environment {

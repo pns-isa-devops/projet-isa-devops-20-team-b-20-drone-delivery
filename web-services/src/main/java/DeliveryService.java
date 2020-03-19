@@ -10,4 +10,10 @@ public interface DeliveryService {
             @WebParam(name = "delivery_id") String deliveryId
     ) throws Exception;
 
+    @WebMethod
+    void scheduleDelivery(
+            @WebParam(name = "date") String date,
+            @WebParam(name = "delivery_id") String deliveryId
+    ) throws Exception;
+
 }

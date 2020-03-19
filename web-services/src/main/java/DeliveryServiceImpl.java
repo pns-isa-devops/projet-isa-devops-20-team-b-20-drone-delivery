@@ -2,7 +2,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
 
-import entities.Drone;
+import fr.polytech.components.DeliveryInitializer;
 import fr.polytech.components.DeliveryModifier;
 import fr.polytech.components.DeliveryScheduler;
 import fr.polytech.entities.Delivery;

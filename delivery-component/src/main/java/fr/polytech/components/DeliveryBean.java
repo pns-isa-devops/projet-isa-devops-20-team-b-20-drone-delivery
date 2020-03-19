@@ -1,8 +1,9 @@
+package fr.polytech.components;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import entities.TimeSlot;
-import fr.polytech.components.DroneLauncher;
 import fr.polytech.entities.Delivery;
 import fr.polytech.entities.DeliveryStatus;
 

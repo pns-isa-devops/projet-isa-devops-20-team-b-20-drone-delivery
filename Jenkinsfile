@@ -25,7 +25,7 @@ pipeline{
                     configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
                         dir("statistics-component") {
                             echo "Unit tests module"
-                            sh "mvn install test"
+                            sh "mvn test -Djdk.attach.allowAttachSelf=true"
                             echo "Deployment into artifactory"
                             sh "mvn -s $MAVEN_SETTINGS deploy"
                         }

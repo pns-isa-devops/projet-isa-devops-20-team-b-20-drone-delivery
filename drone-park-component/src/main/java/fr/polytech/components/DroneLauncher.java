@@ -3,6 +3,7 @@ package fr.polytech.components;
 import entities.Drone;
 
 import javax.ejb.Local;
+import java.util.Date;
 
 @Local
 public interface DroneLauncher {
@@ -14,6 +15,6 @@ public interface DroneLauncher {
      * @param drone
      * @return
      */
-    boolean initializeDroneLaunching(Drone drone/* , double arrivalHour */); // no arrival hour for now
+    boolean initializeDroneLaunching(Drone drone , Date launchHour); // no arrival hour for now
 
 }

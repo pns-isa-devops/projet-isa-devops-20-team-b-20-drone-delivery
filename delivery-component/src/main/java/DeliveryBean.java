@@ -1,6 +1,7 @@
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import entities.TimeSlot;
 import fr.polytech.components.DroneLauncher;
 import fr.polytech.entities.Delivery;
 import fr.polytech.entities.DeliveryStatus;
@@ -19,11 +20,10 @@ public class DeliveryBean implements DeliveryInitializer {
      * @return
      */
     @Override
-    public boolean initializeDelivery(final Delivery delivery) {
+    public boolean initializeDelivery(Delivery delivery) {
         delivery.setStatus(DeliveryStatus.ONGOING);
-
-        return droneLauncher.initializeDroneLaunching(delivery.getDrone());
-
+        TimeSlot timeSlot = delivery.getDrone().getTimeSlot(delivery);
+        return droneLauncher.initializeDroneLaunching(delivery.getDrone(), timeSlot.getDate());
     }
 
 }

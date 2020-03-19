@@ -27,13 +27,13 @@
         <dependency>
             <groupId>fr.unice.polytech.isadevops.dronedelivery</groupId>
             <artifactId>schedule-component</artifactId>
-            <version>0.1</version>
+            <version>0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>fr.unice.polytech.isadevops.dronedelivery</groupId>
             <artifactId>drone-park-component</artifactId>
-            <version>0.1</version>
+            <version>0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>

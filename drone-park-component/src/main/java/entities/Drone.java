@@ -1,12 +1,12 @@
 package entities;
 
-import javax.ejb.EJB;
+import fr.polytech.entities.Delivery;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -33,6 +33,10 @@ public class Drone implements Serializable {
         return droneId;
     }
 
+    public void setDroneId(int droneId) {
+        this.droneId = droneId;
+    }
+
     public DroneStatus getDroneStatus() {
         return droneStatus;
     }
@@ -41,17 +45,21 @@ public class Drone implements Serializable {
         this.droneStatus = droneStatus;
     }
 
-    public Set<TimeSlot> getTimeSlots()
-    {
+    public Set<TimeSlot> getTimeSlots() {
         return timeSlots;
-    }
-
-    public void setDroneId(int droneId) {
-        this.droneId = droneId;
     }
 
     public void setTimeSlots(Set<TimeSlot> timeSlots) {
         this.timeSlots = timeSlots;
+    }
+
+    public TimeSlot getTimeSlot(Delivery delivery) {
+        for (TimeSlot timeSlot : this.timeSlots) {
+            if (timeSlot.getDelivery().equals(delivery)) {
+                return timeSlot;
+            }
+        }
+        return null;
     }
 
     @Override

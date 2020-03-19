@@ -2,14 +2,10 @@ package entities;
 
 import fr.polytech.entities.Delivery;
 
-import javax.ejb.EJB;
 import javax.validation.constraints.NotNull;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Objects;
 
-public class TimeSlot implements Comparable
-{
+public class TimeSlot implements Comparable {
     @NotNull
     private Date date;
 
@@ -18,40 +14,33 @@ public class TimeSlot implements Comparable
 
     private Delivery delivery;
 
-    public Date getDate()
-    {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Date date)
-    {
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public TimeState getState()
-    {
+    public TimeState getState() {
         return state;
     }
 
-    public void setState(TimeState state)
-    {
+    public void setState(TimeState state) {
         this.state = state;
     }
 
-    public Delivery getDelivery()
-    {
+    public Delivery getDelivery() {
         return delivery;
     }
 
-    public void setDelivery(Delivery delivery)
-    {
+    public void setDelivery(Delivery delivery) {
         this.delivery = delivery;
     }
 
     @Override
-    public int compareTo(Object o)
-    {
-        return date.compareTo(((TimeSlot)o).getDate());
+    public int compareTo(Object o) {
+        return date.compareTo(((TimeSlot) o).getDate());
     }
 
     @Override
@@ -61,15 +50,15 @@ public class TimeSlot implements Comparable
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof TimeSlot))
+        if (!(obj instanceof TimeSlot))
             return false;
 
         if (obj == this)
             return true;
 
-        return date.equals(((TimeSlot)obj).getDate())
-                && delivery.equals(((TimeSlot)obj).getDelivery())
-                && state.equals(((TimeSlot)obj).getState());
+        return date.equals(((TimeSlot) obj).getDate())
+                && delivery.equals(((TimeSlot) obj).getDelivery())
+                && state.equals(((TimeSlot) obj).getState());
 
     }
 }

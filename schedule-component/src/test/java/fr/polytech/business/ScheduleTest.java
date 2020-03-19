@@ -24,22 +24,25 @@ import static org.junit.Assert.*;
 @RunWith(Arquillian.class)
 public class ScheduleTest extends AbstractScheduleTest {
 
-    @EJB
+    @EJB(name = "schedule")
     private DeliveryScheduler deliveryScheduler;
 
-    @EJB
+    @EJB(name = "schedule")
     private DeliveryOrganizer deliveryOrganizer;
 
     @Inject
     private ScheduleBean schedule;
 
     @Test //Fonctionnel
-    public void scheduleDeliveryTest() {
-
+    public void scheduleDeliveryTestWithNothing() {
+        Delivery delivery = new Delivery();
+        deliveryScheduler.scheduleDelivery(new Date(new Date().getTime() + 1000), delivery);
+        Delivery next = deliveryOrganizer.getNextDelivery();
+        assertEquals(delivery, next);
     }
 
     /**
-     * Tests DateIsAvalable
+     * Tests DateIsAvailable
      */
     @Test
     public void dateIsAvailableTestWithNothing() {
@@ -142,6 +145,39 @@ public class ScheduleTest extends AbstractScheduleTest {
         schedule.setNewSchedule(schedule.getDrone(), ts);
         assertFalse(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 45)));
         assertTrue(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 15)));
+    }
+
+    /**
+     * Tests getTimeSlotsWithOnlyDeliveries
+     */
+    @Test
+    public void setUnavailableTimeSlotsTestsWithTwoDeliveries1() {
+        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 15), new Delivery());
+        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 30), new Delivery());
+        Set<TimeSlot> ts = schedule.getTimeSlotsWithOnlyDeliveries();
+        assertEquals(2, ts.size());
+        schedule.setChargingTimeSlots(ts);
+        schedule.setUnavailableTimeSlots(ts);
+        assertEquals(4, ts.size());
+        schedule.setNewSchedule(schedule.getDrone(), ts);
+        assertFalse(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 45)));
+        assertFalse(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 0)));
+
+    }
+
+    @Test
+    public void setUnavailableTimeSlotsTestsWithTwoDeliveries2() {
+        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 15), new Delivery());
+        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 45), new Delivery());
+        Set<TimeSlot> ts = schedule.getTimeSlotsWithOnlyDeliveries();
+        assertEquals(2, ts.size());
+        schedule.setChargingTimeSlots(ts);
+        schedule.setUnavailableTimeSlots(ts);
+        assertEquals(4, ts.size());
+        schedule.setNewSchedule(schedule.getDrone(), ts);
+        assertFalse(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 30)));
+        assertFalse(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 9, 0)));
+
     }
 
 }

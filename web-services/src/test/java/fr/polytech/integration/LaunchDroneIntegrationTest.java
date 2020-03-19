@@ -14,19 +14,19 @@ import org.jboss.arquillian.junit.Arquillian;
 /**
  * LaunchDroneIntegrationTest
  */
-@RunWith(Arquillian.class)
-public class LaunchDroneIntegrationTest extends AbstractTCFTest {
+// @RunWith(Arquillian.class)
+// public class LaunchDroneIntegrationTest extends AbstractTCFTest {
 
-    @EJB
-    private DeliveryScheduler schedule;
+//     @EJB
+//     private DeliveryScheduler schedule;
 
-    @Before
-    public void setUpContext() {
+//     @Before
+//     public void setUpContext() {
 
-    }
+//     }
 
-    @Test
-    public void integrationLaunchDrone() throws Exception {
+//     @Test
+//     public void integrationLaunchDrone() throws Exception {
 
-    }
-}
+//     }
+// }

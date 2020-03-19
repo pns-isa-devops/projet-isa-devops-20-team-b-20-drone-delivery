@@ -5,4 +5,5 @@ public enum TimeState
     DELIVERY,
     CHARGING,
     REVIEW,
+    UNAVAILABLE
 }

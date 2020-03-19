@@ -46,6 +46,14 @@ public class Drone implements Serializable {
         return timeSlots;
     }
 
+    public void setDroneId(int droneId) {
+        this.droneId = droneId;
+    }
+
+    public void setTimeSlots(Set<TimeSlot> timeSlots) {
+        this.timeSlots = timeSlots;
+    }
+
     @Override
     public int hashCode() {
         return super.hashCode();

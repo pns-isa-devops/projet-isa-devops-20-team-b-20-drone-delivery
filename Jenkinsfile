@@ -22,9 +22,12 @@ pipeline{
                     }
                 }
                 stages {
-                    stage('build') {
+                    stage('Install') {
                        steps {
-                           echo "build"
+                           echo "Compile module"
+                            dir(MODULE) {
+                                sh "mvn clean compile"
+                            }
                        }
                     }
                 }

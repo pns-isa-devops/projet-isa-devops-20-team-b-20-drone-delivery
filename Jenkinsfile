@@ -15,8 +15,8 @@ pipeline{
         }
         stage("Install") {
             steps {
-                echo "Compile module"
-                sh "mvn clean compile"
+                echo "Install module"
+                sh "mvn clean install"
             }
         }
         stage("statistics-component"){

@@ -15,38 +15,36 @@ pipeline {
         stage("Analysis on modules 1/4") {
             parallel  {
                 stage("statistics-component") {
+                    agent {
+                        node {
+                            label 'statistics-component-label'
+                            customWorkspace './statistics-component/'
+                        }
+                    }
                     stages  {
                         stage("Install") {
                             steps {
                                 echo "Compile module"
-                                dir("./statistics-component/") {
                                     sh "mvn clean compile"
-                                }
                             }
                         }
                         stage("Unit tests") {
                             steps {
                                 echo "Unit tests module"
-                                dir("./statistics-component/") {
                                     sh "mvn test"
-                                }
                             }
                         }
                         stage("Test Mutation") {
                             steps {
                                 echo "Mutation tests"
-                                dir("./statistics-component/") {
                                     sh "mvn install org.pitest:pitest-maven:mutationCoverage"
-                                }
                             }
                         }
                         stage("Sonar analysis") {
                             steps {
                                 echo "Sonar code analysis"
                                 withSonarQubeEnv("Sonarqube_env") {
-                                    dir("./statistics-component/") {
                                         sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
-                                    }
                                 }
                             }
                         }
@@ -62,9 +60,7 @@ pipeline {
                         stage("Artifactory Snapshot") {
                             steps {
                                 configFileProvider([configFile(fileId: "3ec57b41-efe6-4628-a6c7-8be5f1c26d77", variable: "MAVEN_SETTINGS")]) {
-                                    dir("./statistics-component/") {
                                         sh "mvn -s $MAVEN_SETTINGS deploy"
-                                    }
                                 }
                             }
                         }

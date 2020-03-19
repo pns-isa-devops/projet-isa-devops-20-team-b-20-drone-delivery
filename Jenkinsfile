@@ -17,7 +17,7 @@ pipeline {
         }
         stage("Analysis on modules 1/4") {
             parallel  {
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                try {
                 stage("statistics-component") {
                     environment {
                         DIR = "./statistics-component/"
@@ -86,6 +86,7 @@ pipeline {
                     }
                 }
                 }
+                catch(Exception ex) {}
                 stage("delivery-component") {
                     environment {
                         DIR = "./delivery-component/"

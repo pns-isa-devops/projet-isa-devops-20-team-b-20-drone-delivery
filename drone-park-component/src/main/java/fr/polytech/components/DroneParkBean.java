@@ -17,7 +17,6 @@ public class DroneParkBean implements DroneLauncher {
      * right time.
      *
      * @param drone
-     * @param arrivalHour
      * @return
      */
     @Override

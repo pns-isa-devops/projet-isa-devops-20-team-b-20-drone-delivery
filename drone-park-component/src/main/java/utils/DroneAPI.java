@@ -13,24 +13,26 @@ public class DroneAPI {
         this.url = "http://" + host + ":" + port;
     }
 
-    public DroneAPI() { this("localhost", "9090"); }
+    public DroneAPI() {
+        this("localhost", "9090");
+    }
 
-    public boolean getDroneStatus(){
+    public boolean getDroneStatus() {
         // Retrieving the drone status
         String drone = null;
         try {
             String response = WebClient.create(url).path("/status").get(String.class);
             drone = response;
         } catch (Exception e) {
-            System.out.println("get request failed on /status : "+e);
+            System.out.println("get request failed on /status : " + e);
         }
         // Return the drone status
         return Boolean.parseBoolean(drone);
     }
 
-    public void launchDrone(Drone drone){
+    public void launchDrone(Drone drone) {
 
-        if(!getDroneStatus()){
+        if (!getDroneStatus()) {
             return;
         }
 
@@ -43,7 +45,7 @@ public class DroneAPI {
                     .accept(MediaType.APPLICATION_JSON_TYPE).header("Content-Type", MediaType.APPLICATION_JSON)
                     .post(request.toString(), String.class);
         } catch (Exception e) {
-            System.out.println("post request failed on /drone/launch : "+e);
+            System.out.println("post request failed on /drone/launch : " + e);
         }
     }
 }

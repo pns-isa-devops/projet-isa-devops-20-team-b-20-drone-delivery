@@ -9,11 +9,13 @@
 
     <artifactId>drone-park-component</artifactId>
     <version>0.1-SNAPSHOT</version>
+
+
     <dependencies>
         <dependency>
             <groupId>fr.unice.polytech.isadevops.dronedelivery</groupId>
             <artifactId>warehouse-component</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>0.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

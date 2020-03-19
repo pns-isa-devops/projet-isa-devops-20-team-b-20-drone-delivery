@@ -6,6 +6,9 @@ pipeline {
         disableConcurrentBuilds()
         timeout(time: 1, unit: "HOURS")
     }
+    environment {
+        MVN_SETTING_PROVIDER = "3ec57b41-efe6-4628-a6c7-8be5f1c26d77"
+    }
     stages {
         stage("Checkout") {
             steps {
@@ -64,7 +67,7 @@ pipeline {
                         }
                         stage("Artifactory Snapshot") {
                             steps {
-                                configFileProvider([configFile(fileId: "3ec57b41-efe6-4628-a6c7-8be5f1c26d77", variable: "MAVEN_SETTINGS")]) {
+                                configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
                                     dir(DIR) {
                                         sh "mvn -s $MAVEN_SETTINGS deploy"
                                     }
@@ -82,11 +85,14 @@ pipeline {
                     }
                 }
                 stage("delivery-component") {
+                    environment {
+                        DIR = "./delivery-component/"
+                    }
                     stages  {
                         stage("Install") {
                             steps {
                                 echo "Compile module"
-                                dir("./delivery-component/") {
+                                dir(DIR) {
                                     sh "mvn clean compile"
                                 }
                             }
@@ -94,7 +100,7 @@ pipeline {
                         stage("Unit tests") {
                             steps {
                                 echo "Unit tests module"
-                                dir("./delivery-component/") {
+                                dir(DIR) {
                                     sh "mvn test"
                                 }
                             }
@@ -102,7 +108,7 @@ pipeline {
                         stage("Test Mutation") {
                             steps {
                                 echo "Mutation tests"
-                                dir("./delivery-component/") {
+                                dir(DIR) {
                                     sh "mvn install org.pitest:pitest-maven:mutationCoverage"
                                 }
                             }
@@ -111,7 +117,7 @@ pipeline {
                             steps {
                                 echo "Sonar code analysis"
                                 withSonarQubeEnv("Sonarqube_env") {
-                                    dir("./delivery-component/") {
+                                    dir(DIR) {
                                         sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
                                     }
                                 }
@@ -128,8 +134,8 @@ pipeline {
                         }
                         stage("Artifactory Snapshot") {
                             steps {
-                                configFileProvider([configFile(fileId: "3ec57b41-efe6-4628-a6c7-8be5f1c26d77", variable: "MAVEN_SETTINGS")]) {
-                                    dir("./delivery-component/") {
+                                configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
+                                    dir(DIR) {
                                         sh "mvn -s $MAVEN_SETTINGS deploy"
                                     }
                                 }
@@ -150,11 +156,14 @@ pipeline {
         stage("Analysis on modules 2/4") {
             parallel  {
                 stage("drone-park-component") {
+                    environment {
+                        DIR = "./drone-park-component/"
+                    }
                     stages  {
                         stage("Install") {
                             steps {
                                 echo "Compile module"
-                                dir("./drone-park-component/") {
+                                dir(DIR) {
                                     sh "mvn clean compile"
                                 }
                             }
@@ -162,7 +171,7 @@ pipeline {
                         stage("Unit tests") {
                             steps {
                                 echo "Unit tests module"
-                                dir("./drone-park-component/") {
+                                dir(DIR) {
                                     sh "mvn test"
                                 }
                             }
@@ -170,7 +179,7 @@ pipeline {
                         stage("Test Mutation") {
                             steps {
                                 echo "Mutation tests"
-                                dir("./drone-park-component/") {
+                                dir(DIR) {
                                     sh "mvn install org.pitest:pitest-maven:mutationCoverage"
                                 }
                             }
@@ -179,7 +188,7 @@ pipeline {
                             steps {
                                 echo "Sonar code analysis"
                                 withSonarQubeEnv("Sonarqube_env") {
-                                    dir("./drone-park-component/") {
+                                    dir(DIR) {
                                         sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
                                     }
                                 }
@@ -196,8 +205,8 @@ pipeline {
                         }
                         stage("Artifactory Snapshot") {
                             steps {
-                                configFileProvider([configFile(fileId: "3ec57b41-efe6-4628-a6c7-8be5f1c26d77", variable: "MAVEN_SETTINGS")]) {
-                                    dir("./drone-park-component/") {
+                                configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
+                                    dir(DIR) {
                                         sh "mvn -s $MAVEN_SETTINGS deploy"
                                     }
                                 }
@@ -214,11 +223,14 @@ pipeline {
                     }
                 }
                 stage("invoice-component") {
+                    environment {
+                        DIR = "./invoice-component/"
+                    }
                     stages  {
                         stage("Install") {
                             steps {
                                 echo "Compile module"
-                                dir("./invoice-component/") {
+                                dir(DIR) {
                                     sh "mvn clean compile"
                                 }
                             }
@@ -226,7 +238,7 @@ pipeline {
                         stage("Unit tests") {
                             steps {
                                 echo "Unit tests module"
-                                dir("./invoice-component/") {
+                                dir(DIR) {
                                     sh "mvn test"
                                 }
                             }
@@ -234,7 +246,7 @@ pipeline {
                         stage("Test Mutation") {
                             steps {
                                 echo "Mutation tests"
-                                dir("./invoice-component/") {
+                                dir(DIR) {
                                     sh "mvn install org.pitest:pitest-maven:mutationCoverage"
                                 }
                             }
@@ -243,7 +255,7 @@ pipeline {
                             steps {
                                 echo "Sonar code analysis"
                                 withSonarQubeEnv("Sonarqube_env") {
-                                    dir("./invoice-component/") {
+                                    dir(DIR) {
                                         sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
                                     }
                                 }
@@ -260,8 +272,8 @@ pipeline {
                         }
                         stage("Artifactory Snapshot") {
                             steps {
-                                configFileProvider([configFile(fileId: "3ec57b41-efe6-4628-a6c7-8be5f1c26d77", variable: "MAVEN_SETTINGS")]) {
-                                    dir("./invoice-component/") {
+                                configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
+                                    dir(DIR) {
                                         sh "mvn -s $MAVEN_SETTINGS deploy"
                                     }
                                 }
@@ -282,11 +294,14 @@ pipeline {
         stage("Analysis on modules 3/4") {
             parallel  {
                 stage("web-services") {
+                    environment {
+                        DIR = "./web-services/"
+                    }
                     stages  {
                         stage("Install") {
                             steps {
                                 echo "Compile module"
-                                dir("./web-services/") {
+                                dir(DIR) {
                                     sh "mvn clean compile"
                                 }
                             }
@@ -294,7 +309,7 @@ pipeline {
                         stage("Unit tests") {
                             steps {
                                 echo "Unit tests module"
-                                dir("./web-services/") {
+                                dir(DIR) {
                                     sh "mvn test"
                                 }
                             }
@@ -302,7 +317,7 @@ pipeline {
                         stage("Test Mutation") {
                             steps {
                                 echo "Mutation tests"
-                                dir("./web-services/") {
+                                dir(DIR) {
                                     sh "mvn install org.pitest:pitest-maven:mutationCoverage"
                                 }
                             }
@@ -311,7 +326,7 @@ pipeline {
                             steps {
                                 echo "Sonar code analysis"
                                 withSonarQubeEnv("Sonarqube_env") {
-                                    dir("./web-services/") {
+                                    dir(DIR) {
                                         sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
                                     }
                                 }
@@ -328,8 +343,8 @@ pipeline {
                         }
                         stage("Artifactory Snapshot") {
                             steps {
-                                configFileProvider([configFile(fileId: "3ec57b41-efe6-4628-a6c7-8be5f1c26d77", variable: "MAVEN_SETTINGS")]) {
-                                    dir("./web-services/") {
+                                configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
+                                    dir(DIR) {
                                         sh "mvn -s $MAVEN_SETTINGS deploy"
                                     }
                                 }
@@ -346,11 +361,14 @@ pipeline {
                     }
                 }
                 stage("schedule-component") {
+                    environment {
+                        DIR = "./schedule-component/"
+                    }
                     stages  {
                         stage("Install") {
                             steps {
                                 echo "Compile module"
-                                dir("./schedule-component/") {
+                                dir(DIR) {
                                     sh "mvn clean compile"
                                 }
                             }
@@ -358,7 +376,7 @@ pipeline {
                         stage("Unit tests") {
                             steps {
                                 echo "Unit tests module"
-                                dir("./schedule-component/") {
+                                dir(DIR) {
                                     sh "mvn test"
                                 }
                             }
@@ -366,7 +384,7 @@ pipeline {
                         stage("Test Mutation") {
                             steps {
                                 echo "Mutation tests"
-                                dir("./schedule-component/") {
+                                dir(DIR) {
                                     sh "mvn install org.pitest:pitest-maven:mutationCoverage"
                                 }
                             }
@@ -375,7 +393,7 @@ pipeline {
                             steps {
                                 echo "Sonar code analysis"
                                 withSonarQubeEnv("Sonarqube_env") {
-                                    dir("./schedule-component/") {
+                                    dir(DIR) {
                                         sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
                                     }
                                 }
@@ -392,8 +410,8 @@ pipeline {
                         }
                         stage("Artifactory Snapshot") {
                             steps {
-                                configFileProvider([configFile(fileId: "3ec57b41-efe6-4628-a6c7-8be5f1c26d77", variable: "MAVEN_SETTINGS")]) {
-                                    dir("./schedule-component/") {
+                                configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
+                                    dir(DIR) {
                                         sh "mvn -s $MAVEN_SETTINGS deploy"
                                     }
                                 }
@@ -414,11 +432,14 @@ pipeline {
         stage("Analysis on modules 4/4") {
             parallel  {
                 stage("warehouse module") {
+                    environment {
+                        DIR = "./warehouse-component/"
+                    }
                     stages  {
                         stage("Install") {
                             steps {
                                 echo "Compile module"
-                                dir("./warehouse-component/") {
+                                dir(DIR) {
                                     sh "mvn clean compile"
                                 }
                             }
@@ -426,7 +447,7 @@ pipeline {
                         stage("Unit tests") {
                             steps {
                                 echo "Unit tests module"
-                                dir("./warehouse-component/") {
+                                dir(DIR) {
                                     sh "mvn test"
                                 }
                             }
@@ -434,7 +455,7 @@ pipeline {
                         stage("Test Mutation") {
                             steps {
                                 echo "Mutation tests"
-                                dir("./warehouse-component/") {
+                                dir(DIR) {
                                     sh "mvn install org.pitest:pitest-maven:mutationCoverage"
                                 }
                             }
@@ -443,7 +464,7 @@ pipeline {
                             steps {
                                 echo "Sonar code analysis"
                                 withSonarQubeEnv("Sonarqube_env") {
-                                    dir("./warehouse-component/") {
+                                    dir(DIR) {
                                         sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
                                     }
                                 }
@@ -460,8 +481,8 @@ pipeline {
                         }
                         stage("Artifactory Snapshot") {
                             steps {
-                                configFileProvider([configFile(fileId: "3ec57b41-efe6-4628-a6c7-8be5f1c26d77", variable: "MAVEN_SETTINGS")]) {
-                                    dir("./warehouse-component/") {
+                                configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
+                                    dir(DIR) {
                                         sh "mvn -s $MAVEN_SETTINGS deploy"
                                     }
                                 }

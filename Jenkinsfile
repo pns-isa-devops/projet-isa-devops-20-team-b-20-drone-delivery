@@ -19,39 +19,86 @@ pipeline{
                 sh "mvn clean compile"
             }
         }
-        stage("build modules") {
-            matrix {
-                axes {
-                    axis {
-                        name "MODULE"
-                        values "statistics-component","delivery-component","drone-park-component", "invoice-component", "schedule-component", "warehouse module" , "web-services"
+        stage("statistics-component"){
+            steps {
+                configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
+                    dir("statistics-component") {
+                        echo "Unit tests module"
+                        sh "mvn test"
+                        echo "Deployment into artifactory"
+                        sh "mvn -s $MAVEN_SETTINGS deploy"
                     }
                 }
-                stages {
-                    stage("Unit tests") {
-                        steps {
-                            echo "Unit tests module"
-                            dir(MODULE) {
-                                sh "mvn test"
-                            }
-                        }
-                    }
-                    stage("Artifactory Snapshot") {
-                        steps {
-                            configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
-                                dir(MODULE) {
-                                    sh "mvn -s $MAVEN_SETTINGS deploy"
-                                }
-                            }
-                        }
+            }
+        }
+        stage("delivery-component"){
+            steps {
+                configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
+                    dir("delivery-component") {
+                        echo "Unit tests module"
+                        sh "mvn test"
+                        echo "Deployment into artifactory"
+                        sh "mvn -s $MAVEN_SETTINGS deploy"
                     }
                 }
-                post {
-                    success{
-                        echo "====++++component successful++++===="
+            }
+        }
+        stage("drone-park-componentt"){
+            steps {
+                configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
+                    dir("drone-park-component") {
+                        echo "Unit tests module"
+                        sh "mvn test"
+                        echo "Deployment into artifactory"
+                        sh "mvn -s $MAVEN_SETTINGS deploy"
                     }
-                    failure{
-                        echo "====++++component failed++++===="
+                }
+            }
+        }
+        stage("invoice-component"){
+            steps {
+                configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
+                    dir("invoice-component") {
+                        echo "Unit tests module"
+                        sh "mvn test"
+                        echo "Deployment into artifactory"
+                        sh "mvn -s $MAVEN_SETTINGS deploy"
+                    }
+                }
+            }
+        }
+        stage("schedule-component"){
+            steps {
+                configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
+                    dir("schedule-component") {
+                        echo "Unit tests module"
+                        sh "mvn test"
+                        echo "Deployment into artifactory"
+                        sh "mvn -s $MAVEN_SETTINGS deploy"
+                    }
+                }
+            }
+        }
+        stage("warehouse-component"){
+            steps {
+                configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
+                    dir("warehouse-component") {
+                        echo "Unit tests module"
+                        sh "mvn test"
+                        echo "Deployment into artifactory"
+                        sh "mvn -s $MAVEN_SETTINGS deploy"
+                    }
+                }
+            }
+        }
+        stage("web-services"){
+            steps {
+                configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
+                    dir("web-services") {
+                        echo "Unit tests module"
+                        sh "mvn test"
+                        echo "Deployment into artifactory"
+                        sh "mvn -s $MAVEN_SETTINGS deploy"
                     }
                 }
             }

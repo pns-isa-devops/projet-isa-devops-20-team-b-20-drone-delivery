@@ -6,6 +6,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import fr.polytech.components.DeliveryModifier;
 import fr.polytech.entities.Delivery;
+import fr.polytech.exception.UnknownDeliveryException;
 import fr.polytech.utils.CarrierAPI;
 
 /**
@@ -22,7 +23,9 @@ public class AbstractTCFTest {
                 // Utils
                 .addPackage(CarrierAPI.class.getPackage())
                 // Components and Interfaces
-                .addPackage(DeliveryModifier.class.getPackage());
+                .addPackage(DeliveryModifier.class.getPackage())
+                // Exceptions
+                .addPackage(UnknownDeliveryException.class.getPackage());
         // @formatter:on
     }
 }

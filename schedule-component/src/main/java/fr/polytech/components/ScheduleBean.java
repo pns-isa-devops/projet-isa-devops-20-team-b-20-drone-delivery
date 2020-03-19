@@ -4,15 +4,15 @@ import entities.Drone;
 import entities.TimeSlot;
 import entities.TimeState;
 import fr.polytech.entities.Delivery;
-import utils.DroneAPI;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
-import java.sql.Time;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@LocalBean
 @Stateful
 public class ScheduleBean implements DeliveryOrganizer, DeliveryScheduler {
 
@@ -20,7 +20,7 @@ public class ScheduleBean implements DeliveryOrganizer, DeliveryScheduler {
     private DeliveryModifier deliveryModifier;
 
     private Drone drone;
-    private final static int DURING_15_MIN = 15*60*1000;
+    public final static int DURING_15_MIN = 15*60*1000;
 
     @Override
     public List<Delivery> getNextDeliveries() {
@@ -47,14 +47,25 @@ public class ScheduleBean implements DeliveryOrganizer, DeliveryScheduler {
         // Stage 3.2 : Set back UNAVAILABLE time slots
         setUnavailableTimeSlots(timeslots);
 
+        setNewSchedule(drone, timeslots);
+
         return true;
     }
 
+    /**
+     * Return all deliveries timeslots
+     * @return Set
+     */
     public Set<TimeSlot> getTimeSlotsWithOnlyDeliveries()
     {
         return new TreeSet<>(drone.getTimeSlots().stream().filter(ts -> ts.getState().equals(TimeState.DELIVERY)).collect(Collectors.toSet())) ;
     }
 
+    /**
+     * Check if the date can be use for a delivery
+     * @param date
+     * @return boolean
+     */
     public boolean dateIsAvailable(Date date) {
         for(TimeSlot ts : drone.getTimeSlots())
         {
@@ -77,6 +88,17 @@ public class ScheduleBean implements DeliveryOrganizer, DeliveryScheduler {
     }
 
     /**
+     * Create a time slot
+     */
+    public void createTimeSlot(Date date, TimeState state)
+    {
+        TimeSlot timeslot = new TimeSlot();
+        timeslot.setDate(date);
+        timeslot.setState(state);
+        drone.getTimeSlots().add(timeslot);
+    }
+
+    /**
      * Take a set of time slot and add CHARGING time slots where the drone needs charge
      * @param timeslots
      */
@@ -91,6 +113,7 @@ public class ScheduleBean implements DeliveryOrganizer, DeliveryScheduler {
                     TimeSlot chargingTs = new TimeSlot();
                     chargingTs.setDate(new Date(ts.getDate().getTime() + DURING_15_MIN));
                     chargingTs.setState(TimeState.CHARGING);
+                    timeslots.add(chargingTs);
                 }
             }
         }
@@ -136,4 +159,13 @@ public class ScheduleBean implements DeliveryOrganizer, DeliveryScheduler {
         drone = new Drone();
     }
 
+    public Drone getDrone()
+    {
+        return drone;
+    }
+
+    public void setNewSchedule(Drone drone, Set<TimeSlot> timeslots)
+    {
+        drone.setTimeSlots(timeslots);
+    }
 }

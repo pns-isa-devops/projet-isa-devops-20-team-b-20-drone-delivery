@@ -3,9 +3,11 @@ package fr.polytech.business;
 import arquillian.AbstractScheduleTest;
 import entities.TimeSlot;
 import entities.TimeState;
+import fr.polytech.components.DeliveryOrganizer;
 import fr.polytech.components.DeliveryScheduler;
 import fr.polytech.components.ScheduleBean;
 import fr.polytech.entities.Delivery;
+import gherkin.lexer.Da;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +26,9 @@ public class ScheduleTest extends AbstractScheduleTest {
 
     @EJB
     private DeliveryScheduler deliveryScheduler;
+
+    @EJB
+    private DeliveryOrganizer deliveryOrganizer;
 
     @Inject
     private ScheduleBean schedule;
@@ -80,6 +85,15 @@ public class ScheduleTest extends AbstractScheduleTest {
         schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 30), new Delivery());
 
         assertEquals(3, schedule.getTimeSlotsWithOnlyDeliveries().size());
+    }
+
+    @Test
+    public void getNextDeliveriesTest(){
+
+        assertNull(deliveryOrganizer.getNextDelivery());
+        assertTrue(deliveryScheduler.scheduleDelivery(new Date(),new Delivery()));
+        assertNull(deliveryOrganizer.getNextDelivery());
+
     }
 
     @Test

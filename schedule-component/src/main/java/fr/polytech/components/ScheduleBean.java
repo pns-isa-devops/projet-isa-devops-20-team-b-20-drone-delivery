@@ -23,9 +23,14 @@ public class ScheduleBean implements DeliveryOrganizer, DeliveryScheduler {
     public final static int DURING_15_MIN = 15*60*1000;
 
     @Override
-    public List<Delivery> getNextDeliveries() {
-        // TODO : collect the 5 last deliveries and return them, but HOW ?
-        return null;
+    public Delivery getNextDelivery() {
+        List<Delivery> deliveries  = drone.getTimeSlots().stream().filter(timeSlot -> timeSlot.getDate().getTime() > new Date().getTime()).map(TimeSlot::getDelivery).collect(Collectors.toList());
+        if(deliveries.size() > 0){
+            return deliveries.get(0);
+        }
+        else{
+            return null;
+        }
     }
 
     @Override

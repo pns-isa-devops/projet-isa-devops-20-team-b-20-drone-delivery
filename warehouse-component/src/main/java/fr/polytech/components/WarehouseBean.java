@@ -106,12 +106,23 @@ public class WarehouseBean implements DeliveryModifier, ControlledParcel {
         parcels.add(p);
         this.carrier.withControlledParcels(parcels);
         Delivery d = new Delivery();
-        d.setDeliveryNumber("del106");
+        d.setDeliveryNumber("d1");
         d.setParcel(parcels.get(0));
         d.setStatus(DeliveryStatus.NOT_DELIVERED);
         deliveries.add(d);
         d = new Delivery();
-        d.setDeliveryNumber("del206");
+        d.setDeliveryNumber("d2");
+        d.setParcel(parcels.get(1));
+        d.setStatus(DeliveryStatus.NOT_DELIVERED);
+        deliveries.add(d);
+        d = new Delivery();
+        d.setDeliveryNumber("d3");
+        d.setParcel(parcels.get(2));
+        d.setStatus(DeliveryStatus.NOT_DELIVERED);
+        deliveries.add(d);
+        d = new Delivery();
+        d.setDeliveryNumber("d4");
+        d.setParcel(parcels.get(3));
         d.setStatus(DeliveryStatus.NOT_DELIVERED);
         deliveries.add(d);
     }

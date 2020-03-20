@@ -1,13 +1,5 @@
 package arquillian;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.maven.Maven;
-
-import fr.polytech.DeliveryServiceImpl;
-import fr.polytech.interceptors.LoggerParam;
-
 /**
  * AbstractTCFTest
  */

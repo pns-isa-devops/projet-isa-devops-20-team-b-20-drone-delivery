@@ -18,9 +18,6 @@ public class DeliveryServiceImpl implements DeliveryService {
     @EJB(name = "stateless-deliveryInitializer")
     private DeliveryInitializer deliveryInitializer;
 
-    @EJB(name = "stateless-deliveryScheduler")
-    private DeliveryScheduler deliveryScheduler;
-
     @EJB
     private DeliveryModifier deliveryModifier;
 
@@ -37,16 +34,6 @@ public class DeliveryServiceImpl implements DeliveryService {
             throw new Exception("There is no drone on this delivery");
         }
         deliveryInitializer.initializeDelivery(deliveryFromWharehouse);
-    }
-
-    public void scheduleDelivery(String deliveryId, String date) throws Exception {
-        Delivery delivery = deliveryModifier.findDelivery(deliveryId);
-
-        if (delivery == null) {
-            throw new Exception("Wrong delivery id");
-        }
-
-        deliveryScheduler.scheduleDelivery(new SimpleDateFormat("HH:mm").parse(date), delivery);
     }
 
 }

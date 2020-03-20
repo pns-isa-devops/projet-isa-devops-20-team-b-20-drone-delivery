@@ -1,15 +1,11 @@
 package arquillian;
 
-import entities.Drone;
-import entities.TimeSlot;
-import entities.TimeState;
-import fr.polytech.components.DeliveryOrganizer;
-import fr.polytech.components.DeliveryScheduler;
-import fr.polytech.entities.Delivery;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+
+import fr.polytech.schedule.components.DeliveryOrganizer;
 
 /**
  * AbstractSheduleTest
@@ -20,19 +16,14 @@ public class AbstractScheduleTest {
     public static WebArchive createDeployment() {
         // @formatter:off
         return ShrinkWrap.create(WebArchive.class)
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                // Entities
-                .addPackage(TimeSlot.class.getPackage())
-                .addPackage(TimeState.class.getPackage())
-                .addPackage(Drone.class.getPackage())
-                .addPackage(Delivery.class.getPackage())
-                // Utils
-                    // Empty
                 // Components and Interfaces
-                .addPackage(DeliveryScheduler.class.getPackage())
-                .addPackage(DeliveryOrganizer.class.getPackage());
-
-
+                .addPackage(DeliveryOrganizer.class.getPackage())
+                .addAsLibraries(Maven.resolver()
+                            .loadPomFromFile("pom.xml")
+                            .importRuntimeDependencies()
+                            .resolve()
+                            .withTransitivity()
+                            .asFile());
         // @formatter:on
     }
 }

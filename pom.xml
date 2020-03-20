@@ -15,6 +15,7 @@
         <module>warehouse-component</module>
         <module>statistics-component</module>
         <module>shipment-component</module>
+        <module>entities</module>
     </modules>
 
     <properties>

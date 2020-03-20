@@ -13,8 +13,8 @@
     <dependencies>
         <dependency>
             <groupId>fr.unice.polytech.isadevops.dronedelivery</groupId>
-            <artifactId>drone-park-component</artifactId>
-            <version>0.1</version>
+            <artifactId>entities</artifactId>
+            <version>0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

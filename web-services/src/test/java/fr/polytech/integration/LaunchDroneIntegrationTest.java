@@ -4,7 +4,7 @@ package fr.polytech.integration;
  * LaunchDroneIntegrationTest
  */
 // @RunWith(Arquillian.class)
-// public class LaunchDroneIntegrationTest extends AbstractTCFTest {
+// public class LaunchDroneIntegrationTest extends AbstractDeliveryDroneTest {
 
 // @EJB
 // private DeliveryScheduler schedule;

@@ -127,15 +127,15 @@ pipeline{
                 }
             }
         }
-        stage("Quality Gate") {
-            steps {
-                catchError(buildResult: "SUCCESS", stageResult: "FAILED") {
-                    timeout(time: 1, unit: "HOURS") {
-                        waitForQualityGate true
-                    }
-                }
-            }
-        }
+        // stage("Quality Gate") {
+        //     steps {
+        //         catchError(buildResult: "SUCCESS", stageResult: "FAILURE") {
+        //             timeout(time: 1, unit: "HOURS") {
+        //                 waitForQualityGate true
+        //             }
+        //         }
+        //     }
+        // }
     }
     post{
         success {

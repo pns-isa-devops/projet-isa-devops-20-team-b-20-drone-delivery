@@ -10,7 +10,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 /**
  * AbstractTCFTest
  */
-public class AbstractDeliveryTest {
+public class AbstractShipmentTest {
 
     @Deployment
     public static WebArchive createDeployment() {

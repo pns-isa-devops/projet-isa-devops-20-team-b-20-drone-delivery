@@ -14,7 +14,7 @@
         <module>invoice-component</module>
         <module>warehouse-component</module>
         <module>statistics-component</module>
-        <module>delivery-component</module>
+        <module>shipment-component</module>
     </modules>
 
     <properties>

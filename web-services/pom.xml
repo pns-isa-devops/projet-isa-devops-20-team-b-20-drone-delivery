@@ -38,7 +38,7 @@
 
         <dependency>
             <groupId>fr.unice.polytech.isadevops.dronedelivery</groupId>
-            <artifactId>delivery-component</artifactId>
+            <artifactId>shipment-component</artifactId>
             <version>0.2-SNAPSHOT</version>
         </dependency>
 

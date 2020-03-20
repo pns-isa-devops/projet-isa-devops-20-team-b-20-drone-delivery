@@ -8,7 +8,7 @@ import fr.polytech.entities.Delivery;
 import fr.polytech.entities.DeliveryStatus;
 
 @Stateless
-public class DeliveryBean implements DeliveryInitializer {
+public class ShipmentBean implements DeliveryInitializer {
 
     @EJB
     private DroneLauncher droneLauncher;

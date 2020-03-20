@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fr.unice.polytech.isadevops.dronedelivery</groupId>
     <artifactId>projet-isa-devops-20-team-b-20-drone-delivery</artifactId>
     <packaging>pom</packaging>
-    <version>Release-0.1</version>
+    <version>1.0</version>
 
     <modules>
         <module>web-services</module>
         <module>schedule-component</module>
         <module>drone-park-component</module>
         <module>invoice-component</module>
+        <module>warehouse-component</module>
         <module>statistics-component</module>
-        <module>delivery-component</module>
+        <module>shipment-component</module>
+        <module>entities</module>
     </modules>
 
     <properties>
@@ -38,7 +38,22 @@
         <versions.arquillian.junit>1.1.12.Final</versions.arquillian.junit>
         <versions.arquilian.jta>1.0.3.Final</versions.arquilian.jta>
         <versions.shrinkwrap>2.2.6</versions.shrinkwrap>
+        <version.jacoco>0.8.5</version.jacoco>
+        <version.pitest>1.5.0</version.pitest>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>otakedev-releases</name>
+            <url>https://artifactory.otakedev.com:443/artifactory/libs-release-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>otakedev-snapshots</name>
+            <url>https://artifactory.otakedev.com:443/artifactory/libs-snapshot-local</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -123,65 +138,24 @@
             <version>${versions.tomee}</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${version.jacoco}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.pitest/pitest -->
+        <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest</artifactId>
+            <version>${version.pitest}</version>
+        </dependency>
+
 
     </dependencies>
 
     <build>
-        <finalName>tcf-backend</finalName>
-        <defaultGoal>package</defaultGoal>
         <plugins>
-<!--            <plugin>
-                <groupId>org.apache.openjpa</groupId>
-                <artifactId>openjpa-maven-plugin</artifactId>
-                <version>${versions.openjpa}</version>
-                <configuration>
-                    <includes>**/entities/*.class</includes>
-                    <addDefaultConstructor>true</addDefaultConstructor>
-                    <enforcePropertyRestrictions>true</enforcePropertyRestrictions>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>enhancer</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>enhance</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>-->
-<!--
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${versions.maven.surefire}</version>
-                <configuration>
-                    <forkMode>always</forkMode>
-                    &lt;!&ndash; otherwise openejb embedded and tomee embedded shares the same context and EJBContainer is broken &ndash;&gt;
-                    <reuseForks>false</reuseForks>
-                    <excludes>
-                        <exclude>**/PaymentIntegrationTest.java</exclude>
-                        <exclude>features/*</exclude>
-                    </excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>integration-test</id>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <phase>integration-test</phase>
-                        <configuration>
-                            <excludes>
-                                <exclude>**/*Test.java</exclude>
-                            </excludes>
-                            <includes>
-                                <include>**/PaymentIntegrationTest.java</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -192,18 +166,33 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.tomee.maven</groupId>
-                <artifactId>tomee-maven-plugin</artifactId>
-                <version>${versions.tomee}</version>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.5</version>
                 <configuration>
-                    <!-- From TomEE to TomEE+ to support the web services stack -->
-                    <tomeeClassifier>plus</tomeeClassifier>
-                    <args>-Xmx512m -XX:PermSize=256m</args>
-                    <deployOpenEjbApplication>true</deployOpenEjbApplication>
+                    <destFile>${sonar.jacoco.reportPath}</destFile>
+                    <append>true</append>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.5.0</version>
+                <configuration>
+                    <outputFormats>
+                        <value>XML</value>
+                        <value>HTML</value>
+                    </outputFormats>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-
 </project>

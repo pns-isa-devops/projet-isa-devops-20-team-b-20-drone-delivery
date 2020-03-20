@@ -6,19 +6,19 @@
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>schedule-component</artifactId>
     <version>1.0</version>
+
+    <artifactId>shipment-component</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>fr.unice.polytech.isadevops.dronedelivery</groupId>
-            <artifactId>entities</artifactId>
+            <artifactId>drone-park-component</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>fr.unice.polytech.isadevops.dronedelivery</groupId>
-            <artifactId>warehouse-component</artifactId>
+            <artifactId>entities</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

@@ -25,9 +25,6 @@ public class ShipmentBean implements DeliveryInitializer {
     public boolean initializeDelivery(Delivery delivery) {
         delivery.setStatus(DeliveryStatus.ONGOING);
         TimeSlot timeSlot = delivery.getDrone().getTimeSlot(delivery);
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println(delivery);
-        System.out.println(timeSlot);
         return droneLauncher.initializeDroneLaunching(delivery.getDrone(), timeSlot.getDate());
     }
 

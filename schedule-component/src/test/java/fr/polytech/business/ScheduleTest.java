@@ -16,6 +16,7 @@ import javax.ejb.EJB;
 import javax.inject.Inject;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -45,31 +46,31 @@ public class ScheduleTest extends AbstractScheduleTest {
      */
     @Test
     public void dateIsAvailableTestWithNothing() {
-        assertTrue(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 15)));
+        assertTrue(schedule.dateIsAvailable(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 15).getTime()));
     }
 
     @Test
     public void dateIsAvailableTestWithOneDeliveryBefore() {
-        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 0), new Delivery());
-        assertTrue(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 15)));
+        schedule.createDeliveryTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 0).getTime(), new Delivery());
+        assertTrue(schedule.dateIsAvailable(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 15).getTime()));
     }
 
     @Test
     public void dateIsAvailableTestWithOneDeliveryAtSameTime() {
-        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 15), new Delivery());
-        assertFalse(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 15)));
+        schedule.createDeliveryTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 15).getTime(), new Delivery());
+        assertFalse(schedule.dateIsAvailable(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 15).getTime()));
     }
 
     @Test
     public void dateIsAvailableTestWithOneTimeSlotBefore() {
-        schedule.createTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 0), TimeState.CHARGING);
-        assertTrue(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 15)));
+        schedule.createTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 0).getTime(), TimeState.CHARGING);
+        assertTrue(schedule.dateIsAvailable(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 15).getTime()));
     }
 
     @Test
     public void dateIsAvailableTestWithOneTimeSlotAtSameTime() {
-        schedule.createTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 15), TimeState.CHARGING);
-        assertFalse(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 15)));
+        schedule.createTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 15).getTime(), TimeState.CHARGING);
+        assertFalse(schedule.dateIsAvailable(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 15).getTime()));
     }
 
     /**
@@ -82,9 +83,9 @@ public class ScheduleTest extends AbstractScheduleTest {
 
     @Test
     public void getTimeSlotsWithOnlyDeliveriesWithDeliveries() {
-        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 0), new Delivery());
-        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 15), new Delivery());
-        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 30), new Delivery());
+        schedule.createDeliveryTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 0).getTime(), new Delivery());
+        schedule.createDeliveryTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 15).getTime(), new Delivery());
+        schedule.createDeliveryTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 30).getTime(), new Delivery());
 
         assertEquals(3, schedule.getTimeSlotsWithOnlyDeliveries().size());
     }
@@ -100,9 +101,9 @@ public class ScheduleTest extends AbstractScheduleTest {
 
     @Test
     public void getTimeSlotsWithOnlyDeliveriesWithDeliveryAndOther() {
-        schedule.createTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 0), TimeState.REVIEW);
-        schedule.createTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 30), TimeState.CHARGING);
-        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 15), new Delivery());
+        schedule.createTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 0).getTime(), TimeState.REVIEW);
+        schedule.createTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 30).getTime(), TimeState.CHARGING);
+        schedule.createDeliveryTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 15).getTime(), new Delivery());
 
         assertEquals(1, schedule.getTimeSlotsWithOnlyDeliveries().size());
     }
@@ -112,7 +113,7 @@ public class ScheduleTest extends AbstractScheduleTest {
      */
     @Test
     public void setChargingTimeSlotsTestWithOneDeliveries() {
-        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 15), new Delivery());
+        schedule.createDeliveryTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 15).getTime(), new Delivery());
         Set<TimeSlot> ts = schedule.getTimeSlotsWithOnlyDeliveries();
         assertEquals(1, ts.size());
         schedule.setChargingTimeSlots(ts);
@@ -122,28 +123,28 @@ public class ScheduleTest extends AbstractScheduleTest {
 
     @Test
     public void setChargingTimeSlotsTestWithTwoDeliveries1() {
-        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 0), new Delivery());
-        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 15), new Delivery());
+        schedule.createDeliveryTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 0).getTime(), new Delivery());
+        schedule.createDeliveryTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 15).getTime(), new Delivery());
         Set<TimeSlot> ts = schedule.getTimeSlotsWithOnlyDeliveries();
         assertEquals(2, ts.size());
         schedule.setChargingTimeSlots(ts);
         assertEquals(3, ts.size());
         schedule.setNewSchedule(schedule.getDrone(), ts);
-        assertFalse(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 30)));
-        assertTrue(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 45)));
+        assertFalse(schedule.dateIsAvailable(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 30).getTime()));
+        assertTrue(schedule.dateIsAvailable(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 45).getTime()));
     }
 
     @Test
     public void setChargingTimeSlotsTestWithTwoDeliveries2() {
-        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 0), new Delivery());
-        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 30), new Delivery());
+        schedule.createDeliveryTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 0).getTime(), new Delivery());
+        schedule.createDeliveryTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 30).getTime(), new Delivery());
         Set<TimeSlot> ts = schedule.getTimeSlotsWithOnlyDeliveries();
         assertEquals(2, ts.size());
         schedule.setChargingTimeSlots(ts);
         assertEquals(3, ts.size());
         schedule.setNewSchedule(schedule.getDrone(), ts);
-        assertFalse(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 45)));
-        assertTrue(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 15)));
+        assertFalse(schedule.dateIsAvailable(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 45).getTime()));
+        assertTrue(schedule.dateIsAvailable(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 15).getTime()));
     }
 
     /**
@@ -151,31 +152,31 @@ public class ScheduleTest extends AbstractScheduleTest {
      */
     @Test
     public void setUnavailableTimeSlotsTestsWithTwoDeliveries1() {
-        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 15), new Delivery());
-        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 30), new Delivery());
+        schedule.createDeliveryTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 15).getTime(), new Delivery());
+        schedule.createDeliveryTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 30).getTime(), new Delivery());
         Set<TimeSlot> ts = schedule.getTimeSlotsWithOnlyDeliveries();
         assertEquals(2, ts.size());
         schedule.setChargingTimeSlots(ts);
         schedule.setUnavailableTimeSlots(ts);
         assertEquals(4, ts.size());
         schedule.setNewSchedule(schedule.getDrone(), ts);
-        assertFalse(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 45)));
-        assertFalse(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 0)));
+        assertFalse(schedule.dateIsAvailable(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 45).getTime()));
+        assertFalse(schedule.dateIsAvailable(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 0).getTime()));
 
     }
 
     @Test
     public void setUnavailableTimeSlotsTestsWithTwoDeliveries2() {
-        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 15), new Delivery());
-        schedule.createDeliveryTimeSlot(new Date(2001, Calendar.JANUARY, 2, 8, 45), new Delivery());
+        schedule.createDeliveryTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 15).getTime(), new Delivery());
+        schedule.createDeliveryTimeSlot(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 45).getTime(), new Delivery());
         Set<TimeSlot> ts = schedule.getTimeSlotsWithOnlyDeliveries();
         assertEquals(2, ts.size());
         schedule.setChargingTimeSlots(ts);
         schedule.setUnavailableTimeSlots(ts);
         assertEquals(4, ts.size());
         schedule.setNewSchedule(schedule.getDrone(), ts);
-        assertFalse(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 8, 30)));
-        assertFalse(schedule.dateIsAvailable(new Date(2001, Calendar.JANUARY, 2, 9, 0)));
+        assertFalse(schedule.dateIsAvailable(new GregorianCalendar(2001, Calendar.JANUARY, 2, 8, 30).getTime()));
+        assertFalse(schedule.dateIsAvailable(new GregorianCalendar(2001, Calendar.JANUARY, 2, 9, 0).getTime()));
 
     }
 

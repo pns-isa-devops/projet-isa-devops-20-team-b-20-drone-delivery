@@ -13,11 +13,11 @@ pipeline{
                 echo "Checkout"
             }
         }
-        stage("Compile") {
+        stage("Install") {
             steps {
                 configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
-                    echo "Compile module"
-                    sh "mvn -s $MAVEN_SETTINGS clean compile"
+                    echo "Install module"
+                    sh "mvn -s $MAVEN_SETTINGS clean install"
                 }
             }
         }
@@ -27,7 +27,7 @@ pipeline{
                     configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
                         dir("statistics-component") {
                             echo "Unit tests module"
-                            sh "mvn test"
+                            sh "mvn -s $MAVEN_SETTINGS test"
                             echo "Deployment into artifactory"
                             sh "mvn -s $MAVEN_SETTINGS deploy"
                         }
@@ -41,7 +41,7 @@ pipeline{
                     configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
                         dir("shipment-component") {
                             echo "Unit tests module"
-                            sh "mvn test"
+                            sh "mvn -s $MAVEN_SETTINGS test"
                             echo "Deployment into artifactory"
                             sh "mvn -s $MAVEN_SETTINGS deploy"
                         }
@@ -55,7 +55,7 @@ pipeline{
                     configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
                         dir("drone-park-component") {
                             echo "Unit tests module"
-                            sh "mvn test"
+                            sh "mvn -s $MAVEN_SETTINGS test"
                             echo "Deployment into artifactory"
                             sh "mvn -s $MAVEN_SETTINGS deploy"
                         }
@@ -69,7 +69,7 @@ pipeline{
                     configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
                         dir("invoice-component") {
                             echo "Unit tests module"
-                            sh "mvn test"
+                            sh "mvn -s $MAVEN_SETTINGS test"
                             echo "Deployment into artifactory"
                             sh "mvn -s $MAVEN_SETTINGS deploy"
                         }
@@ -83,7 +83,7 @@ pipeline{
                     configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
                         dir("schedule-component") {
                             echo "Unit tests module"
-                            sh "mvn test"
+                            sh "mvn -s $MAVEN_SETTINGS test"
                             echo "Deployment into artifactory"
                             sh "mvn -s $MAVEN_SETTINGS deploy"
                         }
@@ -97,7 +97,7 @@ pipeline{
                     configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
                         dir("warehouse-component") {
                             echo "Unit tests module"
-                            sh "mvn test"
+                            sh "mvn -s $MAVEN_SETTINGS test"
                             echo "Deployment into artifactory"
                             sh "mvn -s $MAVEN_SETTINGS deploy"
                         }
@@ -111,7 +111,7 @@ pipeline{
                     configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
                         dir("web-services") {
                             echo "Unit tests module"
-                            sh "mvn test"
+                            sh "mvn -s $MAVEN_SETTINGS test"
                             echo "Deployment into artifactory"
                             sh "mvn -s $MAVEN_SETTINGS deploy"
                         }

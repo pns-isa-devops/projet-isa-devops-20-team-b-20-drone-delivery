@@ -35,11 +35,11 @@ pipeline{
                 }
             }
         }
-        stage("delivery-component"){
+        stage("shipment-component"){
             steps {
                 catchError(buildResult: "SUCCESS", stageResult: "FAILURE") {
                     configFileProvider([configFile(fileId: MVN_SETTING_PROVIDER, variable: "MAVEN_SETTINGS")]) {
-                        dir("delivery-component") {
+                        dir("shipment-component") {
                             echo "Unit tests module"
                             sh "mvn test"
                             echo "Deployment into artifactory"

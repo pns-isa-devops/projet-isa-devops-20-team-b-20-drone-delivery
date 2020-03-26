@@ -73,7 +73,7 @@ public class WarehouseBean implements DeliveryModifier, ControlledParcel {
             carrier = new CarrierAPI(prop.getProperty("carrierHostName"), prop.getProperty("carrierPortNumber"));
             addMock();
         } catch (Exception e) {
-            log.log(Level.INFO, "Cannot read bank.properties file", e);
+            log.log(Level.INFO, "Cannot read carrier.properties file", e);
             throw new UncheckedException(e);
         }
     }

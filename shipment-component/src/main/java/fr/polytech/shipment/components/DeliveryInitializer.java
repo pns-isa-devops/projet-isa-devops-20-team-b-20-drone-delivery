@@ -2,6 +2,7 @@ package fr.polytech.shipment.components;
 
 import javax.ejb.Local;
 
+import fr.polytech.dronepark.exception.ExternalDroneApiException;
 import fr.polytech.entities.Delivery;
 
 @Local
@@ -13,6 +14,7 @@ public interface DeliveryInitializer {
      *
      * @param delivery
      * @return
+     * @throws ExternalDroneApiException
      */
-    boolean initializeDelivery(Delivery delivery);
+    boolean initializeDelivery(Delivery delivery) throws ExternalDroneApiException;
 }

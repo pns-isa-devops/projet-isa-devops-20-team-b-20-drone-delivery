@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.xml.ws.WebFault;
 
 @WebFault(targetNamespace = "http://www.polytech.unice.fr/si/4a/isa/dronedelivery/delivery")
-public class UnknownDeliveryException extends Exception implements Serializable {
+public class UnknownDeliveryException extends Exception {
 
     private static final long serialVersionUID = 1L;
     private String deliveryNumber;

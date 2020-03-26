@@ -30,6 +30,7 @@
         <versions.tomee>7.0.2</versions.tomee>
         <versions.openjpa>2.4.1</versions.openjpa>
         <versions.myface>2.2.10</versions.myface>
+        <cxf.version>3.1.10</cxf.version>
         <!-- Testing dependencies -->
         <versions.maven.surefire>2.19.1</versions.maven.surefire>
         <versions.junit>5.2.0</versions.junit>
@@ -192,6 +193,34 @@
                         <value>HTML</value>
                     </outputFormats>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-java2ws-plugin</artifactId>
+                <version>${cxf.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-rt-frontend-jaxws</artifactId>
+                        <version>${cxf.version}</version>
+                    </dependency>
+                </dependencies>
+
+                <configuration>
+                    <className>fr.polytech.DeliveryService</className>
+                    <genWsdl>true</genWsdl>
+                    <verbose>true</verbose>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>process-classes</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

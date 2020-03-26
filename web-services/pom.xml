@@ -95,6 +95,7 @@
                     <webXml>src\main\webapp\WEB-INF\web.xml</webXml>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-java2ws-plugin</artifactId>
@@ -106,12 +107,11 @@
                         <version>${cxf.version}</version>
                     </dependency>
                 </dependencies>
-
                 <configuration>
-                    <className>fr.polytech.webservices.DeliveryServiceImpl</className>
+                    <className>fr.polytech.webservices.DeliveryScheduleServiceImpl</className>
+                    <outputFile>${basedir}/../web-services/src/main/resources/wsdl/DeliveryScheduleWS.wsdl</outputFile>
                     <genWsdl>true</genWsdl>
                 </configuration>
-
                 <executions>
                     <execution>
                         <id>process-classes</id>

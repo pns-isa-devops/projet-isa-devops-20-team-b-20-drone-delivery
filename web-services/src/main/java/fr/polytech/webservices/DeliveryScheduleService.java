@@ -8,7 +8,6 @@ import javax.jws.WebService;
 public interface DeliveryScheduleService {
 
     /**
-     *
      * @param stringDate formated like "HH:mm"
      * @param deliveryId
      * @throws Exception

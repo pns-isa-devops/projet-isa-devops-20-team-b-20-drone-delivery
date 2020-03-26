@@ -5,6 +5,7 @@ import javax.ejb.Stateless;
 import javax.jws.WebService;
 
 import fr.polytech.entities.Delivery;
+import fr.polytech.schedule.components.DeliveryOrganizer;
 import fr.polytech.shipment.components.DeliveryInitializer;
 import fr.polytech.warehouse.components.DeliveryModifier;
 
@@ -12,8 +13,11 @@ import fr.polytech.warehouse.components.DeliveryModifier;
 @Stateless(name = "DeliveryWS")
 public class DeliveryServiceImpl implements DeliveryService {
 
-    @EJB(name = "stateless-deliveryInitializer")
+    @EJB(name = "stateless-delivery")
     private DeliveryInitializer deliveryInitializer;
+
+    @EJB(name = "stateless-schedule")
+    private DeliveryOrganizer deliveryOrganizer;
 
     @EJB
     private DeliveryModifier deliveryModifier;
@@ -31,6 +35,11 @@ public class DeliveryServiceImpl implements DeliveryService {
             throw new Exception("There is no drone on this delivery");
         }
         deliveryInitializer.initializeDelivery(deliveryFromWharehouse);
+    }
+
+    @Override
+    public Delivery getNextDelivery() throws Exception {
+        return deliveryOrganizer.getNextDelivery();
     }
 
 }

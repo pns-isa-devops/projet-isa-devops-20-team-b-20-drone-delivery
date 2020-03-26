@@ -14,7 +14,7 @@ import fr.polytech.warehouse.components.DeliveryModifier;
 @Stateless(name = "DeliveryScheduleWS")
 public class DeliveryScheduleServiceImpl implements DeliveryScheduleService {
 
-    @EJB(name = "stateless-deliveryScheduler")
+    @EJB(name = "stateless-schedule")
     private DeliveryScheduler deliveryScheduler;
 
     @EJB

@@ -10,9 +10,9 @@ import fr.polytech.entities.Delivery;
 import fr.polytech.schedule.components.DeliveryScheduler;
 import fr.polytech.warehouse.components.DeliveryModifier;
 
-@WebService(targetNamespace = "http://www.polytech.unice.fr/si/4a/isa/dronedelivery/delivery")
+@WebService(targetNamespace = "http://www.polytech.unice.fr/si/4a/isa/dronedelivery/delivery-schedule")
 @Stateless(name = "DeliveryScheduleWS")
-public class DeliveryScheduleServiceImpl {
+public class DeliveryScheduleServiceImpl implements DeliveryScheduleService {
 
     @EJB(name = "stateless-deliveryScheduler")
     private DeliveryScheduler deliveryScheduler;

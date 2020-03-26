@@ -1,35 +1,45 @@
 package fr.polytech.shipment.business;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.ejb.EJB;
-
+import org.apache.openejb.api.LocalClient;
 import org.jboss.arquillian.junit.Arquillian;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import arquillian.AbstractShipmentTest;
+import fr.polytech.dronepark.components.DroneLauncher;
+import fr.polytech.dronepark.exception.ExternalDroneApiException;
 import fr.polytech.entities.Delivery;
 import fr.polytech.entities.DeliveryStatus;
 import fr.polytech.entities.Drone;
 import fr.polytech.entities.TimeSlot;
-import fr.polytech.shipment.components.DeliveryInitializer;
+import fr.polytech.shipment.components.ShipmentBean;
 
 /**
  * DronePark
  */
-@RunWith(Arquillian.class)
+@LocalClient
 public class ShipmentTest extends AbstractShipmentTest {
 
-    @EJB
-    private DeliveryInitializer deliveryInitializer;
+    private ShipmentBean shipment;
+
+    @Before
+    public void setUpContext() throws ExternalDroneApiException {
+        DroneLauncher mocked = mock(DroneLauncher.class);
+        shipment = new ShipmentBean(mocked);
+        when(mocked.initializeDroneLaunching(new Drone(), new GregorianCalendar())).thenReturn(true);
+    }
 
     @Test
-    public void initializeDelivery() {
+    public void initializeDelivery() throws ExternalDroneApiException {
         Delivery delivery = new Delivery();
         delivery.setDrone(new Drone());
         Set<TimeSlot> timeSlots = new HashSet<>();
@@ -39,7 +49,7 @@ public class ShipmentTest extends AbstractShipmentTest {
         timeSlots.add(timeSlot);
         delivery.getDrone().setTimeSlots(timeSlots);
         assertEquals(DeliveryStatus.NOT_DELIVERED, delivery.getStatus());
-        deliveryInitializer.initializeDelivery(delivery);
+        shipment.initializeDelivery(delivery);
         assertEquals(DeliveryStatus.ONGOING, delivery.getStatus());
     }
 

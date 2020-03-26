@@ -194,34 +194,6 @@
                     </outputFormats>
                 </configuration>
             </plugin>
-            <!-- <plugin>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-java2ws-plugin</artifactId>
-                <version>${cxf.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.cxf</groupId>
-                        <artifactId>cxf-rt-frontend-jaxws</artifactId>
-                        <version>${cxf.version}</version>
-                    </dependency>
-                </dependencies>
-
-                <configuration>
-                    <className>fr.polytech.DeliveryService</className>
-                    <genWsdl>true</genWsdl>
-                    <verbose>true</verbose>
-                </configuration>
-
-                <executions>
-                    <execution>
-                        <id>process-classes</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin> -->
         </plugins>
     </build>
 </project>

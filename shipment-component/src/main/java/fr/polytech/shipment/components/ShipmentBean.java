@@ -3,7 +3,6 @@ package fr.polytech.shipment.components;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import fr.polytech.dronepark.components.ControlledDrone;
 import fr.polytech.dronepark.components.DroneLauncher;
 import fr.polytech.dronepark.exception.ExternalDroneApiException;
 import fr.polytech.entities.Delivery;

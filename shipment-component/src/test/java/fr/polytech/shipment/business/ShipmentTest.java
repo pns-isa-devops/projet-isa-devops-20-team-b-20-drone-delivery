@@ -9,10 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.openejb.api.LocalClient;
-import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import arquillian.AbstractShipmentTest;
 import fr.polytech.dronepark.components.DroneLauncher;

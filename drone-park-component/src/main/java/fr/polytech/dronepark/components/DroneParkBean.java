@@ -6,12 +6,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import org.apache.cxf.common.i18n.UncheckedException;
 
 import fr.polytech.dronepark.exception.ExternalDroneApiException;
 import fr.polytech.dronepark.utils.DroneAPI;
+import fr.polytech.dronepark.utils.DroneScheduler;
 import fr.polytech.entities.Drone;
 import fr.polytech.entities.DroneStatus;
 
@@ -21,6 +23,9 @@ public class DroneParkBean implements DroneLauncher, ControlledDrone {
     private static final Logger log = Logger.getLogger(Logger.class.getName());
 
     private DroneAPI droneAPI;
+
+    @EJB
+    DroneScheduler scheduler;
 
     @Override
     public void useDroneParkReference(DroneAPI dronepark) {
@@ -40,6 +45,7 @@ public class DroneParkBean implements DroneLauncher, ControlledDrone {
             throws ExternalDroneApiException {
         // Call the dotnet API
         this.droneAPI.launchDrone(drone, launchHour);
+        scheduler.add(drone);
         drone.setDroneStatus(DroneStatus.ON_DELIVERY);
         return false;
     }

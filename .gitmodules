@@ -1,3 +1,24 @@
 [submodule "projet-isa-devops-20-team-b-20-statistics-component"]
 	path = projet-isa-devops-20-team-b-20-statistics-component
 	url = https://github.com/pns-isa-devops/projet-isa-devops-20-team-b-20-statistics-component.git
+[submodule "projet-isa-devops-20-team-b-20-web-service"]
+	path = projet-isa-devops-20-team-b-20-web-service
+	url = https://github.com/pns-isa-devops/projet-isa-devops-20-team-b-20-web-service.git
+[submodule "projet-isa-devops-20-team-b-20-warehouse-component"]
+	path = projet-isa-devops-20-team-b-20-warehouse-component
+	url = https://github.com/pns-isa-devops/projet-isa-devops-20-team-b-20-warehouse-component.git
+[submodule "projet-isa-devops-20-team-b-20-shipment-component"]
+	path = projet-isa-devops-20-team-b-20-shipment-component
+	url = https://github.com/pns-isa-devops/projet-isa-devops-20-team-b-20-shipment-component.git
+[submodule "projet-isa-devops-20-team-b-20-schedule-component"]
+	path = projet-isa-devops-20-team-b-20-schedule-component
+	url = https://github.com/pns-isa-devops/projet-isa-devops-20-team-b-20-schedule-component.git
+[submodule "projet-isa-devops-20-team-b-20-invoice-component"]
+	path = projet-isa-devops-20-team-b-20-invoice-component
+	url = https://github.com/pns-isa-devops/projet-isa-devops-20-team-b-20-invoice-component.git
+[submodule "projet-isa-devops-20-team-b-20-entities"]
+	path = projet-isa-devops-20-team-b-20-entities
+	url = https://github.com/pns-isa-devops/projet-isa-devops-20-team-b-20-entities.git
+[submodule "projet-isa-devops-20-team-b-20-drone-park-component"]
+	path = projet-isa-devops-20-team-b-20-drone-park-component
+	url = https://github.com/pns-isa-devops/projet-isa-devops-20-team-b-20-drone-park-component.git

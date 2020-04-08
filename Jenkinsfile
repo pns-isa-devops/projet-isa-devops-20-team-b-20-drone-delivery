@@ -16,29 +16,28 @@ pipeline{
                 }
             }
         }
-        // stage("Sonar analysis") {
-        //     steps {
-        //         echo "Sonar code analysis"
-        //         withSonarQubeEnv("Sonarqube_env") {
-        //             sh "mvn install sonar:sonar -Dsonar.pitest.mode=reuseReport"
-        //         }
-        //     }
-        // }
-        // stage("Quality Gate") {
-        //     steps {
-        //         catchError(buildResult: "SUCCESS", stageResult: "FAILURE") {
-        //             timeout(time: 1, unit: "HOURS") {
-        //                 waitForQualityGate true
-        //             }
-        //         }
-        //     }
-        // }
     }
     post{
         success {
+            slackSend(
+            channel: 'projet-isa-devops-ci',
+            notifyCommitters: true,
+            failOnError: true,
+            color: 'good',
+            token: env.SLACK_TOKEN,
+            message: 'Job: ' + env.JOB_NAME + ' with buildnumber ' + env.BUILD_NUMBER + ' was successful',
+            baseUrl: env.SLACK_WEBHOOK)
             echo "======== pipeline executed successfully ========"
         }
         failure {
+            slackSend(
+            channel: 'projet-isa-devops-ci',
+            notifyCommitters: true,
+            failOnError: true,
+            color: 'danger',
+            token: env.SLACK_TOKEN,
+            message: 'Job: ' + env.JOB_NAME + ' with buildnumber ' + env.BUILD_NUMBER + ' was failed',
+            baseUrl: env.SLACK_WEBHOOK)
             echo "======== pipeline execution failed========"
         }
     }

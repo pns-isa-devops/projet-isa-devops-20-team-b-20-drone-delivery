@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fr.unice.polytech.isadevops.dronedelivery</groupId>
     <artifactId>projet-isa-devops-20-team-b-20-drone-delivery</artifactId>
     <packaging>pom</packaging>
-    <version>1.0</version>
+    <version>2.0.5-SNAPSHOT</version>
 
     <modules>
-        <module>web-services</module>
-        <module>schedule-component</module>
-        <module>drone-park-component</module>
-        <module>invoice-component</module>
-        <module>warehouse-component</module>
-        <module>statistics-component</module>
-        <module>shipment-component</module>
-        <module>entities</module>
+        <module>projet-isa-devops-20-team-b-20-web-service</module>
+        <module>projet-isa-devops-20-team-b-20-schedule-component</module>
+        <module>projet-isa-devops-20-team-b-20-drone-park-component</module>
+        <module>projet-isa-devops-20-team-b-20-invoice-component</module>
+        <module>projet-isa-devops-20-team-b-20-warehouse-component</module>
+        <module>projet-isa-devops-20-team-b-20-statistics-component</module>
+        <module>projet-isa-devops-20-team-b-20-shipment-component</module>
+        <module>projet-isa-devops-20-team-b-20-entities</module>
     </modules>
 
     <properties>
@@ -30,8 +31,9 @@
         <versions.tomee>7.0.2</versions.tomee>
         <versions.openjpa>2.4.1</versions.openjpa>
         <versions.myface>2.2.10</versions.myface>
+        <cxf.version>3.1.10</cxf.version>
         <!-- Testing dependencies -->
-        <versions.maven.surefire>2.19.1</versions.maven.surefire>
+        <versions.maven.surefire>2.22.2</versions.maven.surefire>
         <versions.junit>5.2.0</versions.junit>
         <versions.mockito>1.10.19</versions.mockito>
         <versions.cukespace>1.6.5</versions.cukespace>
@@ -158,6 +160,12 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${versions.maven.surefire}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${versions.maven.compiler}</version>
                 <configuration>
@@ -165,6 +173,7 @@
                     <target>${versions.java}</target>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -192,6 +201,35 @@
                         <value>HTML</value>
                     </outputFormats>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.17</version>
+                <configuration>
+                    <reuseForks>false</reuseForks>
+                    <excludes>
+                        <exclude>**/*IntegrationTest.java</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <phase>integration-test</phase>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/*Test.java</exclude>
+                            </excludes>
+                            <includes>
+                                <include>**/*IntegrationTest.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
